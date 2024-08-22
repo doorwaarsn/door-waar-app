@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import AuthContext from "../../../contexts/auth/auth.context";
 import { useNavigate } from "react-router-dom";
-import { emailSchema, passwordSchema } from "../validation";
+import { phoneNumberSchema, passwordSchema } from "../validation";
 import { AuthStatus } from "../../../contexts/auth/auth.model";
 import { toast } from "react-toastify";
 import * as yup from "yup";
@@ -9,38 +9,47 @@ import * as yup from "yup";
 export const LoginForm: React.FC = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
-  const { status, error, login, profile } = useContext(AuthContext);
+  const { status, error, login } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const handleLogin = async (e: any) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     try {
-      // await emailSchema.validate({ phoneNumber: phoneNumber });
-      // await passwordSchema.validate({ password: password });
-      login!(phoneNumber, password);
-      toast.success("Login successfully!");
-      console.log(login!(phoneNumber, password));
+      await phoneNumberSchema.validate({ phoneNumber });
+      await passwordSchema.validate({ password });
+      await login!(phoneNumber, password);
     } catch (error) {
       if (error instanceof yup.ValidationError) {
         toast.error(error.message);
+      } else {
+        console.error("Erreur de connexion :", error);
+        toast.error(
+          "Une erreur inattendue s'est produite. Veuillez réessayer."
+        );
       }
     }
   };
 
   const user = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user")!)
-    : undefined;
-  let roleAsString = user?.role.toString();
+    : null;
+
+  const roleAsString = user?.role ?? "";
 
   useEffect(() => {
     if (status === AuthStatus.logged) {
-      if (roleAsString && roleAsString !== "EMPLOYED") {
+      if (roleAsString === "SUPER_ADMIN" || roleAsString === "ADMIN") {
+        toast.success("Connexion réussie. Bienvenue dans l'espace admin");
         navigate("/dashboard");
       } else {
-        navigate("/dashboard/profile");
+        toast.error(
+          "Accès refusé : vous devez être administrateur pour vous connecter."
+        );
+        navigate("/");
       }
     } else if (status === AuthStatus.error && error) {
-      console.log(error);
+      console.error("Erreur de connexion :", error);
     }
   }, [status, error, navigate, roleAsString]);
 
@@ -87,10 +96,7 @@ export const LoginForm: React.FC = () => {
             />
           </div>
           <div className="ml-3 text-sm">
-            <label
-              htmlFor="remember"
-              className="text-gray-500 "
-            >
+            <label htmlFor="remember" className="text-gray-500 ">
               Souvienir de moi
             </label>
           </div>

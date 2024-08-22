@@ -55,11 +55,6 @@ export const useNavigationPaths = [
     element: <Employee />,
   },
   {
-    title: "Worker Details",
-    path: GDINPaths.WorkersDetails,
-    element: <SingleEmployee />,
-  },
-  {
     title: "Holidays",
     path: GDINPaths.Holidays,
     element: <Holidays />,

@@ -1,10 +1,13 @@
 import * as yup from "yup";
 
-export const emailSchema = yup.object().shape({
-  email: yup
+export const phoneNumberSchema = yup.object().shape({
+  phoneNumber: yup
     .string()
-    .email("Must be a valid email")
-    .required("Email is required"),
+    .matches(
+      /^\+?[1-9]\d{1,14}$/,
+      "Phone number must be a valid international number"
+    )
+    .required("Phone number is required"),
 });
 
 export const passwordSchema = yup.object().shape({

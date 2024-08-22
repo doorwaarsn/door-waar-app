@@ -1,53 +1,48 @@
+import React, { useEffect, useState } from "react";
 import { API_URL } from "../../env";
-import { useEffect, useState } from "react";
 import Eye from "../../assets/icons/eye.svg";
-
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import { CiSearch } from "react-icons/ci";
 import { Link } from "react-router-dom";
 
-const ListOfDepartments = ({ datas, loading }: any) => {
+const ListOfDepartments = ({
+  datas,
+  loading,
+}: {
+  datas: any[];
+  loading: boolean;
+}) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [filteredProfessions, setFilteredProfessions] = useState([]);
+  const [filteredProfessions, setFilteredProfessions] = useState<any[]>([]);
   const [query, setQuery] = useState("");
 
   const usersPerPage = 10;
 
   useEffect(() => {
-    if (!query) {
+    if (query.trim() === "") {
       setFilteredProfessions(datas);
-      return;
+    } else {
+      const lowerQuery = query.toLowerCase();
+      const filtered = datas.filter(
+        (proff) =>
+          proff.name?.toLowerCase().includes(lowerQuery) ||
+          proff.subProfession?.some((subProff: any) =>
+            subProff.name.toLowerCase().includes(lowerQuery)
+          )
+      );
+      setFilteredProfessions(filtered);
     }
-
-    const lowerQuery = query.toLowerCase();
-
-    const filteredProff = datas.filter((proff: any) => {
-      const proffMatch =
-        proff?.name?.toLowerCase().includes(lowerQuery) || false;
-      const subProffMatch =
-        proff?.subProfession?.some((subProff: any) =>
-          subProff?.name.toLowerCase().includes(lowerQuery)
-        ) || false;
-
-      return proffMatch || subProffMatch;
-    });
-
-    setFilteredProfessions(filteredProff);
   }, [datas, query]);
 
-  // Calculer les utilisateurs affichés sur la page actuelle
   const indexOfLastUser = currentPage * usersPerPage;
-  const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = filteredProfessions.slice(
-    indexOfFirstUser,
+    indexOfLastUser - usersPerPage,
     indexOfLastUser
   );
 
-  // Calculer le nombre total de pages
-  const totalPages = Math.ceil(datas.length / usersPerPage);
+  const totalPages = Math.ceil(filteredProfessions.length / usersPerPage);
 
-  // Changer de page
-  const paginate = (pageNumber: any) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   if (loading) {
     return (
@@ -59,39 +54,6 @@ const ListOfDepartments = ({ datas, loading }: any) => {
       </div>
     );
   }
-
-  // if (error) {
-  //   return (
-  //     <div className="text-center h-[800px] flex flex-col justify-center items-center">
-  //       <h1 className="mb-4 text-6xl font-semibold text-red-500">
-  //         {error.code}
-  //       </h1>
-  //       <p className="mb-4 text-lg text-gray-600">Oops! {error}.</p>
-  //       <div className="animate-bounce">
-  //         <svg
-  //           className="mx-auto h-16 w-16 text-red-500"
-  //           fill="none"
-  //           viewBox="0 0 24 24"
-  //           stroke="currentColor"
-  //         >
-  //           <path
-  //             stroke-linecap="round"
-  //             stroke-linejoin="round"
-  //             stroke-width="2"
-  //             d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-  //           ></path>
-  //         </svg>
-  //       </div>
-  //       <p className="mt-4 text-gray-600">
-  //         Let's get you back{" "}
-  //         <Link to="/dashboard" className="text-blue-500">
-  //           home
-  //         </Link>
-  //         .
-  //       </p>
-  //     </div>
-  //   );
-  // }
 
   return (
     <div className="flex-1 w-full h-[444px] mt-4 pt-[16px] pb-[20px] flex flex-col">
@@ -121,10 +83,10 @@ const ListOfDepartments = ({ datas, loading }: any) => {
                 #
               </th>
               <th className="px-4 py-3 text-[15px] font-normal text-left text-[#8f9bb3]">
-                Proféssions
+                Professions
               </th>
               <th className="px-4 py-3 text-[15px] font-normal text-left text-[#8f9bb3]">
-                Sous Proféssion
+                Sous Professions
               </th>
               <th className="px-4 py-3 text-[15px] font-normal text-left text-[#8f9bb3]">
                 Actions
@@ -132,23 +94,21 @@ const ListOfDepartments = ({ datas, loading }: any) => {
             </tr>
           </thead>
           <tbody className="text-gray-700">
-            {currentUsers.map((item: any, i: any) => (
+            {currentUsers.map((item, index) => (
               <tr key={item.id}>
                 <td className="px-4 py-2 text-[12px] font-normal tracking-normal leading-5 text-left text-gray-800">
-                  {i}
+                  {index + 1}
                 </td>
                 <td className="px-4 py-2 text-[12px] font-normal tracking-normal leading-5 text-left text-gray-800 flex gap-4 items-center">
                   <img
                     src={`${API_URL}/resources/${item.iconProfession[0].image}`}
-                    alt="User"
+                    alt="Profession Icon"
                     className="h-10 w-10 rounded-md border border-blue-gray-50 bg-blue-gray-50/50 p-1 object-cover"
                   />
                   {item.name}
                 </td>
                 <td className="px-4 py-2 text-[12px] font-normal tracking-normal leading-5 text-left text-gray-800">
-                  {item?.subProfession.map((sub: any) => (
-                    <span className="">{sub.name}, </span>
-                  ))}
+                  {item.subProfession.map((sub: any) => sub.name).join(", ")}
                 </td>
                 <td className="px-4 py-2 text-[12px] font-normal tracking-normal leading-5 text-left text-gray-800">
                   <div className="w-max flex justify-center items-center">
@@ -156,7 +116,7 @@ const ListOfDepartments = ({ datas, loading }: any) => {
                       to={`/dashboard/professions/${item.id}`}
                       className="flex items-center justify-center"
                     >
-                      <img src={Eye} alt="Delete" />
+                      <img src={Eye} alt="View" />
                     </Link>
                   </div>
                 </td>
@@ -176,20 +136,22 @@ const ListOfDepartments = ({ datas, loading }: any) => {
   );
 };
 
-const Pagination = ({ totalPages, currentPage, paginate }: any) => {
-  const pageNumbers = [];
-
-  for (let i = 1; i <= totalPages; i++) {
-    pageNumbers.push(i);
-  }
-
+const Pagination = ({
+  totalPages,
+  currentPage,
+  paginate,
+}: {
+  totalPages: number;
+  currentPage: number;
+  paginate: (pageNumber: number) => void;
+}) => {
   return (
     <nav
       className="isolate inline-flex -space-x-px gap-4 w-full justify-center items-center"
       aria-label="Pagination"
     >
-      <span
-        onClick={() => paginate(`${currentPage--}`)}
+      <button
+        onClick={() => currentPage > 1 && paginate(currentPage - 1)}
         className="flex ml-1 cursor-pointer"
       >
         <FaChevronLeft size="0.6rem" className="text-[#14ABE3]" />
@@ -197,26 +159,24 @@ const Pagination = ({ totalPages, currentPage, paginate }: any) => {
           size="0.6rem"
           className="-translate-x-1/2 text-[#14ABE3]"
         />
-      </span>
-      {pageNumbers.map((number) => (
+      </button>
+      {[...Array(totalPages)].map((_, index) => (
         <button
-          key={number}
-          onClick={() => paginate(number)}
+          key={index + 1}
+          onClick={() => paginate(index + 1)}
           className={`flex flex-col cursor-pointer items-center justify-center w-6 h-6 shadow-[0_4px_10px_rgba(0,0,0,0.03)] text-sm font-normal transition-colors rounded-lg
-              ${
-                number === currentPage
-                  ? "bg-[#14ABE3] text-white"
-                  : "text-[#14ABE3]"
-              }
-
-              `}
+            ${
+              index + 1 === currentPage
+                ? "bg-[#14ABE3] text-white"
+                : "text-[#14ABE3]"
+            }
+          `}
         >
-          {number}
+          {index + 1}
         </button>
       ))}
-
-      <span
-        onClick={() => paginate(`${currentPage++}`)}
+      <button
+        onClick={() => currentPage < totalPages && paginate(currentPage + 1)}
         className="flex ml-1 cursor-pointer"
       >
         <FaChevronRight size="0.6rem" className="text-[#14ABE3]" />
@@ -224,7 +184,7 @@ const Pagination = ({ totalPages, currentPage, paginate }: any) => {
           size="0.6rem"
           className="-translate-x-1/2 text-[#14ABE3]"
         />
-      </span>
+      </button>
     </nav>
   );
 };

@@ -19,7 +19,10 @@ const Department = () => {
   return (
     <div className="w-full h-auto flex flex-col gap-5 items-center">
       <div className="w-full flex justify-between items-center gap-5">
-        <ViewToggleButtons activeView={activeView} onViewChange={handleViewChange} />
+        <ViewToggleButtons
+          activeView={activeView}
+          onViewChange={handleViewChange}
+        />
         {isModalOpen && <AddDepartments setShowModal={setIsModalOpen} />}
         <button
           onClick={() => setIsModalOpen(true)}
@@ -30,11 +33,7 @@ const Department = () => {
       </div>
 
       {activeView === 1 ? (
-        <ListOfDepartments
-          datas={departments}
-          loading={loading}
-          error={error}
-        />
+        <ListOfDepartments datas={departments} loading={loading} />
       ) : (
         <CardOfDepartments
           datas={departments}
@@ -56,19 +55,25 @@ const ViewToggleButtons = ({
   <div className="flex items-center w-[80px] h-[30px] py-[7px] rounded-md border border-[#eff4fa] overflow-hidden">
     <button
       onClick={() => onViewChange(1)}
-      className={classNames("flex-1 h-full flex items-center justify-center py-4", {
-        "bg-[#14ABE3] text-white": activeView === 1,
-        "text-[#231f20]": activeView !== 1,
-      })}
+      className={classNames(
+        "flex-1 h-full flex items-center justify-center py-4",
+        {
+          "bg-[#14ABE3] text-white": activeView === 1,
+          "text-[#231f20]": activeView !== 1,
+        }
+      )}
     >
       <IoIosList size={16} />
     </button>
     <button
       onClick={() => onViewChange(2)}
-      className={classNames("flex-1 h-full flex items-center justify-center py-4", {
-        "bg-[#14ABE3] text-white": activeView === 2,
-        "text-[#231f20]": activeView !== 2,
-      })}
+      className={classNames(
+        "flex-1 h-full flex items-center justify-center py-4",
+        {
+          "bg-[#14ABE3] text-white": activeView === 2,
+          "text-[#231f20]": activeView !== 2,
+        }
+      )}
     >
       <RxDashboard size={16} />
     </button>

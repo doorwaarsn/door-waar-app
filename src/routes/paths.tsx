@@ -1,7 +1,6 @@
 export enum GDINPaths {
   Home = "/dashboard/",
   Employee = "/dashboard/workers",
-  WorkersDetails = "/dashboard/workers/:idWorker",
   Department = "/dashboard/professions",
   DepartmentDetails = "/dashboard/professions/:id",
   Jobs = "/dashboard/jobs",

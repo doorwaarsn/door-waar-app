@@ -1,25 +1,31 @@
 import React, { useEffect, useState } from "react";
-import Facebook from "../../assets/icons/facebook.svg";
-import Twitter from "../../assets/icons/twitter.svg";
-import WhatshAp from "../../assets/icons/whatshap.svg";
-import Be from "../../assets/icons/be.svg";
-import { API_URL } from "../../env";
-import { PiSealCheckFill } from "react-icons/pi";
+import { PiSealCheckFill, PiChecksBold } from "react-icons/pi";
 import { FaTrash } from "react-icons/fa6";
-import { PiChecksBold } from "react-icons/pi";
-import { useUsers } from "../../contexts/users/users.provider";
-import { toast } from "react-toastify";
-import { WorkersGallery } from "./WorkersGallery";
 import { IoIosClose, IoLogoWhatsapp } from "react-icons/io";
 import { HiPhoneArrowDownLeft } from "react-icons/hi2";
+import { toast } from "react-toastify";
 import { format } from "date-fns";
-import Comment from "./Comment";
 
-const SingleEmployee = ({
+import FacebookIcon from "../../assets/icons/facebook.svg";
+import TwitterIcon from "../../assets/icons/twitter.svg";
+import WhatsAppIcon from "../../assets/icons/whatshap.svg";
+import BeIcon from "../../assets/icons/be.svg";
+import { API_URL } from "../../env";
+import { useUsers } from "../../contexts/users/users.provider";
+import Comment from "./Comment";
+import { WorkersGallery } from "./WorkersGallery";
+
+interface SingleEmployeeProps {
+  workerDetails: any;
+  setViewMode: (view: string) => void;
+  setWorkerDetails: (details: any) => void;
+}
+
+const SingleEmployee: React.FC<SingleEmployeeProps> = ({
   workerDetails,
-  setViewsChange,
+  setViewMode,
   setWorkerDetails,
-}: any) => {
+}) => {
   const {
     recommendedWorker,
     getWorkerCallHistory,
@@ -27,223 +33,208 @@ const SingleEmployee = ({
     getReviewsWorker,
     reviewWorker,
   } = useUsers();
+
   const [workersPhone, setWorkersPhone] = useState("");
   const [isSliderOpen, setIsSliderOpen] = useState(false);
   const [image, setImage] = useState("");
 
-  console.log(workerDetails);
-
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        // Ajoutez une condition ici pour vérifier que vous ne déclenchez pas inutilement un setState
-        if (workerDetails && workersPhone) {
-          if (!workerDetails.recommend && workersPhone) {
-            await recommendedWorker(workersPhone);
-            toast.success(
-              `Le compte de ${workerDetails.fullName} est certifié`
-            );
-          } else if (workerDetails.recommend && workersPhone) {
-            await recommendedWorker(workersPhone);
-            toast.error(
-              `La certification du compte de ${workerDetails.fullName} est désactivée`
-            );
-          }
-          // Mettez à jour les états sans boucler
-          setViewsChange("details");
+      if (workerDetails && workersPhone) {
+        try {
+          const isRecommended = workerDetails.recommend;
+          await recommendedWorker(workersPhone);
+          toast.success(
+            isRecommended
+              ? `La certification du compte de ${workerDetails?.fullName} est désactivée`
+              : `Le compte de ${workerDetails?.fullName} est certifié`
+          );
+          setViewMode("details");
           setWorkerDetails(workerDetails);
+        } catch (err) {
+          console.error(err);
         }
-      } catch (err) {
-        console.log(err);
       }
     };
 
     if (workersPhone) {
-      fetchData(); // Appelez la fonction d'async dans useEffect
+      fetchData();
     }
 
-    // Ne déclenchez pas ces appels sans conditions, vérifiez d'abord si workerDetails.id existe
-    if (workerDetails.id) {
+    if (workerDetails?.id) {
       getWorkerCallHistory(workerDetails.id);
       getReviewsWorker(workerDetails.id);
     }
+  }, [workersPhone, workerDetails]);
 
-    // Ajoutez le tableau de dépendances pour éviter une boucle infinie
-  }, [workersPhone, workerDetails]); // Ajoutez uniquement les dépendances nécessaires
-
-  const closeSlider = () => {
-    setIsSliderOpen(false);
+  const handleCertifyToggle = () => {
+    setWorkersPhone(workerDetails.phoneNumber);
   };
 
-  const openSlider = (image: any) => {
+  const closeSlider = () => setIsSliderOpen(false);
+
+  const openSlider = (image: string) => {
     setIsSliderOpen(true);
     setImage(image);
   };
 
   return (
-    <div className=" w-full flex gap-3 h-screen overflow-auto ">
-      <div className="w-2/3 flex  gap-3 flex-col">
-        <div className="w-full flex  gap-4">
-          <div className="flex-1 flex flex-col gap-5  h-[300px] bg-white rounded-md p-4 justify-between shadow-sm">
-            <div className="w-full flex items-center gap-2 border-b border-[#eff4fa] pb-5 ">
+    <div className="w-full flex gap-3 h-screen overflow-auto">
+      <div className="w-2/3 flex flex-col gap-3">
+        <div className="w-full flex gap-4">
+          <div className="flex-1 flex flex-col gap-5 bg-white rounded-md p-4 shadow-sm justify-between">
+            <div className="w-full flex items-center gap-2 border-b pb-5">
               <img
-                src={`${API_URL}/resources/${workerDetails.avatar}`}
+                src={`${API_URL}/resources/${workerDetails?.avatar}`}
                 className="w-[70px] h-[70px] rounded-full object-cover"
                 alt=""
               />
               <div className="flex flex-col gap-2">
-                <p className="text-[15px] font-semibold leading-[1.07] text-left text-[#222b45]">
-                  {workerDetails.fullName}
+                <p className="text-[15px] font-semibold text-[#222b45]">
+                  {workerDetails?.fullName}
                 </p>
-                <p className="text-[13px] font-normal leading-[1.23] text-left text-[#8f9bb3]">
-                  {workerDetails.profession.name}
+                <p className="text-[13px] text-[#8f9bb3]">
+                  {workerDetails?.profession?.name}
                 </p>
-                <p className="text-[12px] font-normal leading-[1.23] text-left text-[#8f9bb3]">
-                  {workerDetails.address}
+                <p className="text-[12px] text-[#8f9bb3]">
+                  {workerDetails?.address}
                 </p>
-                <p className="flex items-center gap-1">
-                  <img src={Facebook} alt="" className="w-[20px] h-[20px]" />
-                  <img src={Twitter} alt="" className="w-[20px] h-[20px]" />
-                  <img src={WhatshAp} alt="" className="w-[20px] h-[20px]" />
-                  <img src={Be} alt="" className="w-[20px] h-[20px]" />
-                </p>
+                <div className="flex items-center gap-1">
+                  <img
+                    src={FacebookIcon}
+                    alt="Facebook"
+                    className="w-[20px] h-[20px]"
+                  />
+                  <img
+                    src={TwitterIcon}
+                    alt="Twitter"
+                    className="w-[20px] h-[20px]"
+                  />
+                  <img
+                    src={WhatsAppIcon}
+                    alt="WhatsApp"
+                    className="w-[20px] h-[20px]"
+                  />
+                  <img src={BeIcon} alt="Be" className="w-[20px] h-[20px]" />
+                </div>
               </div>
             </div>
-            <p className="text-[12px] font-normal leading-[1.33] text-left text-[#8f9bb3]">
-              {workerDetails.description}
+            <p className="text-[12px] text-[#8f9bb3]">
+              {workerDetails?.description}
             </p>
 
-            <div className="w-full flex justify-start items-center gap-4 self-end">
+            <div className="w-full flex gap-4">
               <button
-                onClick={() => setWorkersPhone(workerDetails.phoneNumber)}
-                className={`w-[120px] h-[26px]  mb-0 gap-1 flex justify-center items-center p-[5px]   rounded-[4px]  ${
+                onClick={handleCertifyToggle}
+                className={`flex text-[13px] items-center gap-1 p-1 rounded-[4px] text-white ${
                   workerDetails.recommend ? "bg-[#14ABE3]" : "bg-yellow-500"
-                } text-[13px] font-normal leading-[1.23] text-left text-white`}
+                }`}
               >
                 <PiSealCheckFill size={14} />
                 {workerDetails.recommend ? "Certifier" : "Non Certifier"}
               </button>
-              <button className="w-[87px] h-[26px]  mb-0 gap-1 flex justify-center items-center p-[5px] pr-[14px] pl-[10px] rounded-[4px] bg-green-600 text-[13px] font-normal leading-[1.23] text-left text-white">
+              <button className="flex text-[13px] items-center gap-1 p-1 rounded-[4px] bg-green-600 text-white">
                 <PiChecksBold size={14} />
                 Actif
               </button>
-              <button className="w-[100px] h-[26px]  mb-0 gap-1 flex justify-center items-center p-[5px] pr-[14px] pl-[10px] rounded-[4px] bg-red-600 text-[13px] font-normal leading-[1.23] text-left text-white">
+              <button className="flex text-[13px] items-center gap-1 p-1 rounded-[4px] bg-red-600 text-white">
                 <FaTrash size={14} />
                 Supprimer
               </button>
             </div>
           </div>
-          <div className="flex-1  h-[300px] bg-white rounded-md shadow-sm flex flex-col gap-4 p-2">
-            <p className="text-[16px] font-semibold leading-[1.23] text-left text-[#222b45] border-b w-full py-3">
+
+          <div className="flex-1 bg-white rounded-md shadow-sm p-2 flex flex-col gap-4">
+            <p className="text-[16px] font-semibold text-[#222b45] border-b py-3">
               Complément de dossiers
             </p>
-            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-2">
-              <div>
-                {workerDetails?.cni[0]?.image && (
-                  <img
-                    className="h-[220px] w-full max-w-full rounded-lg object-cover object-center cursor-pointer"
-                    src={`${API_URL}/resources/${workerDetails?.cni[0]?.image}`}
-                    alt=""
-                    onClick={() => openSlider(workerDetails?.cni[0]?.image)}
-                  />
-                )}
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+              {workerDetails?.cni[0]?.image && (
+                <img
+                  className="h-[220px] w-full rounded-lg object-cover cursor-pointer"
+                  src={`${API_URL}/resources/${workerDetails?.cni[0]?.image}`}
+                  alt="CNI"
+                  onClick={() => openSlider(workerDetails?.cni[0]?.image)}
+                />
+              )}
+              {workerDetails?.certificate[0]?.image && (
+                <img
+                  className="h-[220px] w-full rounded-lg object-cover cursor-pointer"
+                  src={`${API_URL}/resources/${workerDetails?.certificate[0]?.image}`}
+                  alt="Certificate"
+                  onClick={() =>
+                    openSlider(workerDetails?.certificate[0]?.image)
+                  }
+                />
+              )}
 
-                {isSliderOpen && image === workerDetails?.cni[0]?.image && (
-                  <div className="w-full fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
-                    <div className="w-[50%] flex items-center justify-center">
-                      <button
-                        onClick={closeSlider}
-                        className="absolute top-5 right-5 text-white"
-                      >
-                        <IoIosClose size={25} />
-                      </button>
-                      <div className="relative">
-                        <img
-                          className="max-w-full max-h-full"
-                          src={`${API_URL}/resources/${workerDetails?.cni[0]?.image}`}
-                          alt=""
-                        />
-                      </div>
+              {isSliderOpen && (
+                <div className="w-full fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
+                  <div className="w-[50%] flex items-center justify-center">
+                    <button
+                      onClick={closeSlider}
+                      className="absolute top-5 right-5 text-white"
+                    >
+                      <IoIosClose size={25} />
+                    </button>
+                    <div className="relative">
+                      <img
+                        src={`${API_URL}/resources/${image}`}
+                        className="rounded-lg max-h-full"
+                        alt="Slider"
+                      />
                     </div>
                   </div>
-                )}
-              </div>
-              <div>
-                {workerDetails?.certificate[0]?.image && (
-                  <img
-                    className="h-[220px] w-full max-w-full rounded-lg object-cover object-center cursor-pointer"
-                    src={`${API_URL}/resources/${workerDetails?.certificate[0]?.image}`}
-                    alt=""
-                    onClick={() =>
-                      openSlider(workerDetails?.certificate[0]?.image)
-                    }
-                  />
-                )}
-                {isSliderOpen &&
-                  image === workerDetails?.certificate[0]?.image && (
-                    <div className="w-full fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
-                      <div className="w-[50%] flex items-center justify-center">
-                        <button
-                          onClick={closeSlider}
-                          className="absolute top-5 right-5 text-white"
-                        >
-                          <IoIosClose size={25} />
-                        </button>
-                        <div className="relative">
-                          <img
-                            className="max-w-full max-h-full"
-                            src={`${API_URL}/resources/${workerDetails?.certificate[0]?.image}`}
-                            alt=""
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  )}
-              </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
-        <div className="w-full h-[585px] bg-white shadow-sm p-2 flex flex-col gap-4">
-          <p className="text-[16px] font-semibold leading-[1.23] text-left text-[#222b45] border-b w-full py-3">
+
+        <div className="bg-white shadow-sm p-2 flex flex-col gap-4 rounded-md h-[850px]">
+          <p className="text-[16px] font-semibold text-[#222b45] border-b py-3">
             Réalisations
           </p>
           <WorkersGallery data={workerDetails.illustrator} />
         </div>
       </div>
-      <div className="w-1/3 h-[900px] flex flex-col gap-4">
-        <div className="w-full h-[450px] bg-white shadow-sm flex flex-col gap-4 p-3 overflow-y-auto">
-          <p className="text-[16px] font-semibold leading-[1.23] text-left text-[#222b45] border-b w-full py-3">
+
+      <div className="w-1/3 flex flex-col gap-4">
+        <div className="bg-white shadow-sm p-3 flex flex-col gap-4 overflow-y-auto rounded-md">
+          <p className="text-[16px] font-semibold text-[#222b45] border-b py-3">
             Commentaires
           </p>
           {reviewWorker.map((item: any) => (
-            <Comment item={item} />
+            <Comment key={item.id} item={item} />
           ))}
         </div>
 
-        <div className="w-full h-[450px] bg-white shadow-sm flex flex-col gap-4 p-3 overflow-y-auto">
-          <p className="text-[16px] font-semibold leading-[1.23] text-left text-[#222b45] border-b w-full py-3">
+        <div className="bg-white shadow-sm p-3 flex flex-col gap-4 overflow-y-auto rounded-md">
+          <p className="text-[16px] font-semibold text-[#222b45] border-b py-3">
             Historique d'appels
           </p>
           {callHistory.map((item: any) => (
-            <div className="w-full h-[50px] border rounded-md flex justify-between items-start p-1 px-2 ">
-              <div className="w-[70%] h-full flex items-center gap-2">
-                {item?.callType === "CALL" ? (
-                  <HiPhoneArrowDownLeft size={32} className=" text-[#14ABE3]" />
+            <div
+              key={item.id}
+              className="border rounded-md flex justify-between p-2"
+            >
+              <div className="flex items-center gap-2">
+                {item.callType === "CALL" ? (
+                  <HiPhoneArrowDownLeft size={32} className="text-[#14ABE3]" />
                 ) : (
-                  <IoLogoWhatsapp size={32} className=" text-green-600" />
+                  <IoLogoWhatsapp size={32} className="text-green-600" />
                 )}
-
-                <div className="flex flex-col gap-1 items-start justify-center">
-                  <h4 className="text-[12px] font-semibold leading-[1.23] text-left text-[#222b45]">
+                <div className="flex flex-col">
+                  <h4 className="text-[12px] font-semibold text-[#222b45]">
                     {item?.userApp?.fullName}
                   </h4>
-                  <h4 className="text-[10px] font-normal leading-[1.33] text-left text-[#8f9bb3]">
+                  <h4 className="text-[10px] text-[#8f9bb3]">
                     {item?.userApp?.phoneNumber}
                   </h4>
                 </div>
               </div>
-              <p className="text-[10px] font-normal leading-[1.33] text-left text-[#8f9bb3] mt-2">
-                {format(new Date(item?.createdAt), "dd/MM/yyyy - HH:mm")}{" "}
+              <p className="text-[10px] text-[#8f9bb3]">
+                {format(new Date(item?.createdAt), "dd/MM/yyyy - HH:mm")}
               </p>
             </div>
           ))}
