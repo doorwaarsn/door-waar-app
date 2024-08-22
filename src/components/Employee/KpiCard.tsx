@@ -38,7 +38,7 @@ const KpiCard = ({
         </p>
       </div>
 
-      <div className="w-full bg-gray-200 rounded-full h-1 dark:bg-gray-700">
+      <div className="w-full bg-gray-200 rounded-full h-1">
         <div
           className={`${
             porcentUser >= 50 ? "bg-[#00e096]" : "bg-[#14ABE3]"

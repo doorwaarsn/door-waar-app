@@ -1,10 +1,14 @@
+import { Link } from "react-router-dom";
 import Pencil from "../../assets/icons/pencil.svg";
 import Trash from "../../assets/icons/trash.svg";
 import { API_URL } from "../../env";
 
 const Card = ({ datas }: any) => {
   return (
-    <div className="w-full sm:w-[320px]  border flex flex-col items-center justify-between gap-2  sm:p-[20px 0px] rounded-[8px] border border-[#eff4fa] bg-white shadow-sm">
+    <Link
+      to={`/dashboard/professions/${datas.id}`}
+      className="w-full sm:w-[320px]  border flex flex-col items-center justify-between gap-2  sm:p-[20px 0px] rounded-[8px] border border-[#eff4fa] bg-white shadow-sm"
+    >
       <div className="flex flex-col items-center gap-2 pt-5 w-full">
         <img
           src={`${API_URL}/resources/${datas.iconProfession[0].image}`}
@@ -44,7 +48,7 @@ const Card = ({ datas }: any) => {
           </span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

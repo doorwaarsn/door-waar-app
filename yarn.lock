@@ -4127,6 +4127,11 @@ ckeditor5@41.4.2, ckeditor5@^41.4.2:
     "@ckeditor/ckeditor5-widget" "41.4.2"
     "@ckeditor/ckeditor5-word-count" "41.4.2"
 
+classnames@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.5.1.tgz#ba774c614be0f016da105c858e7159eae8e7687b"
+  integrity sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==
+
 cldr-data-downloader@1.0.0-1:
   version "1.0.0-1"
   resolved "https://registry.npmjs.org/cldr-data-downloader/-/cldr-data-downloader-1.0.0-1.tgz"

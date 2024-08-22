@@ -20,6 +20,7 @@
     "autoprefixer": "^10.4.19",
     "axios": "^1.7.2",
     "ckeditor5": "^41.4.2",
+    "classnames": "^2.5.1",
     "cldr": "^7.5.0",
     "cldr-data": "^36.0.2",
     "cldrjs": "^0.5.5",
