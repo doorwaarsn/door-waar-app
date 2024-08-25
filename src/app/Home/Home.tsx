@@ -12,9 +12,12 @@ import Performance from "../../components/Performance/Performance";
 import ProjectSummary from "../../components/ProjectSummary/ProjectSummary";
 import { useContext } from "react";
 import AuthContext from "../../contexts/auth/auth.context";
+import { useUsers } from "../../contexts/users/users.provider";
 
 const Home = () => {
   const { profile } = useContext(AuthContext);
+  const { users } = useUsers();
+
 
   return (
     <div className="w-full h-auto flex flex-col gap-6 items-start pb-10">
@@ -36,16 +39,16 @@ const Home = () => {
         <div className="flex-1 h-[444px]  pt-[16px]  pb-[20px]  rounded-[8px] border border-[#eff4fa] bg-[#fff] flex flex-col gap-5 px-5">
           <div className="w-full flex justify-between items-center border-b border-[#eff4fa] pb-2">
             <h6 className="text-[17px] font-semibold leading-[0.94] text-left text-[#222b45]">
-              Salary Statistics
+              Statistique Des Professions
             </h6>
             <div className="flex items-center gap-4">
-              <h6 className="text-[13px] font-normal leading-[1.23] text-right text-[#8f9bb3]">
+              {/* <h6 className="text-[13px] font-normal leading-[1.23] text-right text-[#8f9bb3]">
                 Last year comparision:
               </h6>
-              <img src={DefaultOn} alt="" />
+              <img src={DefaultOn} alt="" /> */}
             </div>
           </div>
-          <SalaryChartBar />
+          <SalaryChartBar users={users} />
 
           <div className="w-full flex  items-center">
             <button className="w-[157px] h-[34px] mt-[28px] mr-[15px] mb-0 ml-[20px] py-[9px] pl-[28.1px] pr-[27.9px] rounded-[22px] bg-[#00e096] text-[13px] font-normal leading-[1.23] text-center text-white">
@@ -61,7 +64,7 @@ const Home = () => {
           </div>
         </div>
         <div className="flex-1 h-[444px] flex justify-between items-center gap-6">
-          <RevenuChart />
+          <RevenuChart users={users} />
           <Balance />
         </div>
       </div>

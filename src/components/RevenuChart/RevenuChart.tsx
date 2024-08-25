@@ -1,24 +1,24 @@
 import React from "react";
 import RChart from "./Chart";
 
-const RevenuChart = () => {
+const RevenuChart = ({ users }: any) => {
   return (
     <div className="flex-1 h-[444px] p-5 rounded-[8px] border border-[#eff4fa] bg-[#fff] flex flex-col justify-between  items-center">
       <div className="w-full flex justify-between items-center border-b border-[#eff4fa] pb-2">
         <h6 className="text-[17px] font-semibold leading-[0.94] text-left text-[#222b45]">
-          Revenue
+          Certification
         </h6>
       </div>
       <div className="w-full h-[200px]">
-        <RChart />
+        <RChart users={users} />
       </div>
 
       <div className="flex justify-center items-center gap-3">
         <p className="text-lg font-normal leading-[1.09] text-center text-[#222b45]">
-          1,240,301
+          {users.length}
         </p>
-        <span className="w-[54px] h-[20px]   py-[2px] px-[8px] rounded-[8px] bg-[#cde7ff] text-[13px] font-semibold leading-[1.23] text-center text-[#14ABE3]">
-          +3.7%
+        <span className="w-[70px] h-[20px]   py-[2px] px-[8px] rounded-[4px] bg-[#cde7ff] text-[13px] font-semibold leading-[1.23] text-center text-[#14ABE3]">
+          Ouviers
         </span>
       </div>
       <p className="text-[12px] font-normal  leading-[0.67] text-center text-[#8f9bb3]">

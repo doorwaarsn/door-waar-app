@@ -1,3 +1,4 @@
+import { PiSealCheckFill } from "react-icons/pi";
 import { API_URL } from "../../env";
 
 const ListOfEmployees = ({ user }: any) => {
@@ -8,14 +9,25 @@ const ListOfEmployees = ({ user }: any) => {
       </td>
       <td className="px-4 py-1 border-b border-blue-gray-50">
         <div className="flex items-center gap-2">
-          <img
-            src={`${API_URL}/resources/${user.avatar}`}
-            alt="User"
-            className="h-10 w-10 rounded-full border border-blue-gray-50 bg-blue-gray-50/50 p-1 object-cover"
-          />
+          <span
+            className={`${
+              user.recommend ? "border-2 border-[#14ABE3]" : "border-2 border-blue-100"
+            }  rounded-full`}
+          >
+            <img
+              src={`${API_URL}/resources/${user.avatar}`}
+              alt="User"
+              className="h-9 w-9 rounded-full  bg-blue-gray-50/50 object-cover"
+            />
+          </span>
           <div className="flex flex-col">
-            <p className="block text-[13px] font-semibold leading-[1.23] text-left text-[#222b45]">
+            <p className="text-[13px] flex gap-2 items-center font-semibold leading-[1.23] text-left text-[#222b45]">
               {user.fullName}
+              {user.recommend ? (
+                <PiSealCheckFill size={14} className="text-[#14ABE3]" />
+              ) : (
+                ""
+              )}
             </p>
             <p className="block text-xs font-normal leading-[1.33] text-left text-[#8f9bb3]">
               {user.email}

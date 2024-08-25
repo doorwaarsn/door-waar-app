@@ -35,13 +35,11 @@ export const putRequest = async (path: string, body?: any) => {
 
 export const fetchRequest = async (path: string) => {
   try {
-    // const token = localStorage.getItem("token");
 
     const response = await axios.get(`${API_URL}/${path}`, {
       headers: {
         "Content-Type": "application/json",
-        // Authorization: `Bearer ${token}`,
-        // "secret-key": "2gdi@Advisors",
+
       },
     });
 

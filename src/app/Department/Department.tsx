@@ -33,7 +33,7 @@ const Department = () => {
       </div>
 
       {activeView === 1 ? (
-        <ListOfDepartments datas={departments} loading={loading} />
+        <ListOfDepartments datas={departments} loading={loading} error={error} />
       ) : (
         <CardOfDepartments
           datas={departments}

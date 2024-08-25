@@ -1,4 +1,4 @@
-import { useContext } from "react";
+// import { useContext } from "react";
 import Account from "../app/Account/Account";
 import Activities from "../app/Activities/Activities";
 import Calendar from "../app/Calendar/Calendar";
@@ -13,10 +13,11 @@ import Messages from "../app/Messages/Messages";
 import Payroll from "../app/Payroll/Payroll";
 import Report from "../app/Report/Report";
 import { GDINPaths } from "./paths";
-import AuthContext from "../contexts/auth/auth.context";
-import { Role } from "../common/enums";
+// import AuthContext from "../contexts/auth/auth.context";
+// import { Role } from "../common/enums";
 
-import SingleEmployee from "../components/Employee/SingleEmployee";
+// import SingleEmployee from "../components/Employee/SingleEmployee";
+import Customers from "../app/Customers/Customers";
 
 export const useNavigationPaths = [
   {
@@ -53,6 +54,11 @@ export const useNavigationPaths = [
     title: "Employee",
     path: GDINPaths.Employee,
     element: <Employee />,
+  },
+  {
+    title: "Customer",
+    path: GDINPaths.Customers,
+    element: <Customers />,
   },
   {
     title: "Holidays",

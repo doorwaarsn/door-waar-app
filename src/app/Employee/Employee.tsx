@@ -10,6 +10,7 @@ import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import { useDepartments } from "../../contexts/Department/department.provider";
 import { User } from "../../contexts/users/users.models";
+import { Link } from "react-router-dom";
 
 type UserType = {
   id: string;
@@ -119,9 +120,9 @@ const Employee = () => {
     return Math.ceil(usersList.length / usersPerPage);
   }, [filteredUsersByType, viewDataMode]);
 
+  const handlePagination = (pageNumber: number) => setCurrentPage(pageNumber);
   const handleViewModeChange = (view: typeof viewMode) => setViewMode(view);
 
-  const handlePagination = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
     <div className="w-full h-auto flex flex-col gap-4 items-center">
@@ -237,7 +238,7 @@ const UserTable = ({
   <div className="flex-1 w-full h-[444px] pt-[16px] flex flex-col">
     <div className="w-full flex justify-between items-center rounded-t-[8px] border border-[#eff4fa] bg-white py-[10px] px-[20px]">
       <h6 className="text-[17px] font-semibold leading-[0.94] text-left text-[#222b45]">
-        {id ? profession.name + "s" : "Workers"}
+        {id ? profession.name + "s" : "Ouvriers"}
       </h6>
       <div className="flex items-center gap-4">
         <div className="relative flex items-center bg-white rounded-md border border-[#eff4fa]">
@@ -254,54 +255,78 @@ const UserTable = ({
         </div>
       </div>
     </div>
-    <div className="flex-1 w-full h-[444px] pb-[20px] flex flex-col ">
-      <div className="relative flex flex-col w-full h-full text-gray-700 bg-white rounded-xl bg-clip-border">
-        <div className="pb-6 px-0">
-          <table className="w-full text-left table-auto min-w-max">
-            <thead className="bg-[#eff4fa]">
-              <tr>
-                <th className="px-4 py-3 text-[15px] font-normal text-left text-[#8f9bb3]">
-                  <input type="checkbox" />
-                </th>
-                <th className="px-4 py-3 text-[15px] font-normal text-left text-[#8f9bb3]">
-                  Nom complet
-                </th>
-                <th className="px-4 py-3 text-[15px] font-normal text-left text-[#8f9bb3]">
-                  Profession
-                </th>
-                <th className="px-4 py-3 text-[15px] font-normal text-left text-[#8f9bb3]">
-                  Adresse
-                </th>
-                <th className="px-4 py-3 text-[15px] font-normal text-left text-[#8f9bb3]">
-                  Téléphone
-                </th>
-                <th className="px-4 py-3 text-[15px] font-normal text-left text-[#8f9bb3]">
-                  Date de création
-                </th>
-                <th className="px-4 py-3 text-[15px] font-normal text-left text-[#8f9bb3]">
-                  Role
-                </th>
-              </tr>
-            </thead>
+    {loading ? (
+      <div className="flex items-center justify-center h-[800px]  w-full">
+        <div className="relative">
+          <div className="h-24 w-24 rounded-full border-t-8 border-b-8 border-gray-200"></div>
+          <div className="absolute top-0 left-0 h-24 w-24 rounded-full border-t-8 border-b-8 border-[#14ABE3] animate-spin"></div>
+        </div>
+      </div>
+    ) : error ? (
+      <div className="text-center h-[800px] flex flex-col justify-center items-center">
+        <h1 className="mb-4 text-6xl font-semibold text-red-500">
+          {error.code}
+        </h1>
+        <p className="mb-4 text-lg text-gray-600">Oops! {error}.</p>
+        <div className="animate-bounce">
+          <svg
+            className="mx-auto h-16 w-16 text-red-500"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+            ></path>
+          </svg>
+        </div>
+        <p className="mt-4 text-gray-600">
+          Let's get you back{" "}
+          <Link to="/dashboard" className="text-blue-500">
+            home
+          </Link>
+          .
+        </p>
+      </div>
+    ) : (
+      <div className="flex-1 w-full h-[444px] pb-[20px] flex flex-col ">
+        <div className="relative flex flex-col w-full h-full text-gray-700 bg-white rounded-xl bg-clip-border pb-6">
+          <div className="pb-6 px-0">
+            <table className="w-full text-left table-auto min-w-max">
+              <thead className="bg-[#eff4fa]">
+                <tr>
+                  <th className="px-4 py-3 text-[15px] font-normal text-left text-[#8f9bb3]">
+                    <input type="checkbox" />
+                  </th>
+                  <th className="px-4 py-3 text-[15px] font-normal text-left text-[#8f9bb3]">
+                    Nom complet
+                  </th>
+                  <th className="px-4 py-3 text-[15px] font-normal text-left text-[#8f9bb3]">
+                    Profession
+                  </th>
+                  <th className="px-4 py-3 text-[15px] font-normal text-left text-[#8f9bb3]">
+                    Adresse
+                  </th>
+                  <th className="px-4 py-3 text-[15px] font-normal text-left text-[#8f9bb3]">
+                    Téléphone
+                  </th>
+                  <th className="px-4 py-3 text-[15px] font-normal text-left text-[#8f9bb3]">
+                    Date de création
+                  </th>
+                  <th className="px-4 py-3 text-[15px] font-normal text-left text-[#8f9bb3]">
+                    Role
+                  </th>
+                </tr>
+              </thead>
 
-            <tbody>
-              {loading ? (
-                <tr>
-                  <td colSpan={6} className="text-center">
-                    Loading...
-                  </td>
-                </tr>
-              ) : error ? (
-                <tr>
-                  <td colSpan={6} className="text-center">
-                    Error loading data
-                  </td>
-                </tr>
-              ) : (
-                users.map((user: User) => (
+              <tbody>
+                {users.map((user: User) => (
                   <tr
                     key={user.id}
-                    className="cursor-pointer"
+                    className="cursor-pointer hover:bg-[#eff4fa]"
                     onClick={() => {
                       setWorkerDetails(user);
                       changeView("details");
@@ -309,20 +334,20 @@ const UserTable = ({
                   >
                     <ListOfEmployees user={user} />
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-        <div className="flex justify-center mt-4 w-full">
-          <Pagination
-            totalPages={totalPages}
-            currentPage={currentPage}
-            paginate={paginate}
-          />
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="flex justify-center mt-4 w-full">
+            <Pagination
+              totalPages={totalPages}
+              currentPage={currentPage}
+              paginate={paginate}
+            />
+          </div>
         </div>
       </div>
-    </div>
+    )}
   </div>
 );
 
@@ -337,6 +362,9 @@ const Pagination = ({ totalPages, currentPage, paginate }: any) => {
   for (let i = 1; i <= totalPages; i++) {
     pageNumbers.push(i);
   }
+
+  const startPage = Math.max(currentPage - 5, 1);
+  const endPage = Math.min(currentPage + 4, totalPages);
 
   return (
     <nav
@@ -354,22 +382,52 @@ const Pagination = ({ totalPages, currentPage, paginate }: any) => {
           className="-translate-x-1/2 text-[#14ABE3]"
         />
       </button>
-      {pageNumbers.map((number) => (
+
+      {startPage > 1 && (
+        <>
+          <button
+            onClick={() => paginate(1)}
+            className={`flex flex-col cursor-pointer items-center justify-center w-6 h-6 shadow-sm text-sm font-normal transition-colors rounded-lg ${
+              1 === currentPage ? "bg-[#14ABE3] text-white" : "text-[#14ABE3]"
+            }`}
+          >
+            1
+          </button>
+          {startPage > 2 && <span className="text-[#14ABE3]">...</span>}
+        </>
+      )}
+
+      {pageNumbers.slice(startPage - 1, endPage).map((number) => (
         <button
           key={number}
           onClick={() => paginate(number)}
-          className={`flex flex-col cursor-pointer items-center justify-center w-6 h-6 shadow-[0_4px_10px_rgba(0,0,0,0.03)] text-sm font-normal transition-colors rounded-lg
-              ${
-                number === currentPage
-                  ? "bg-[#14ABE3] text-white"
-                  : "text-[#14ABE3]"
-              }
-
-              `}
+          className={`flex flex-col cursor-pointer items-center justify-center w-5 h-5 shadow-sm text-sm font-normal transition-colors rounded-lg ${
+            number === currentPage
+              ? "bg-[#14ABE3] text-white"
+              : "text-[#14ABE3]"
+          }`}
         >
           {number}
         </button>
       ))}
+
+      {endPage < totalPages && (
+        <>
+          {endPage < totalPages - 1 && (
+            <span className="text-[#14ABE3]">...</span>
+          )}
+          <button
+            onClick={() => paginate(totalPages)}
+            className={`flex flex-col cursor-pointer items-center justify-center w-5 h-5 shadow-sm text-sm font-normal transition-colors rounded-lg ${
+              totalPages === currentPage
+                ? "bg-[#14ABE3] text-white"
+                : "text-[#14ABE3]"
+            }`}
+          >
+            {totalPages}
+          </button>
+        </>
+      )}
 
       <button
         onClick={() => paginate(currentPage + 1)}

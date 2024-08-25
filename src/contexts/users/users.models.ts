@@ -51,7 +51,7 @@ export type User = {
   illustrator: [];
   avatar: { 0: { image: string } };
   password: string;
-  role: Role;
+  role: string;
   address: string;
   providerType: "ENTITY" | "INDIVIDUAL";
   createdAt: string;

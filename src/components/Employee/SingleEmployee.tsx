@@ -82,16 +82,21 @@ const SingleEmployee: React.FC<SingleEmployeeProps> = ({
     <div className="w-full flex gap-3 h-screen overflow-auto">
       <div className="w-2/3 flex flex-col gap-3">
         <div className="w-full flex gap-4">
-          <div className="flex-1 flex flex-col gap-5 bg-white rounded-md p-4 shadow-sm justify-between">
+          <div className="flex-1 flex flex-col bg-white rounded-md p-4 shadow-sm justify-between">
             <div className="w-full flex items-center gap-2 border-b pb-5">
               <img
                 src={`${API_URL}/resources/${workerDetails?.avatar}`}
-                className="w-[70px] h-[70px] rounded-full object-cover"
+                className="w-[100px] h-[100px] object-cover border-2 border-blue-100 rounded-md"
                 alt=""
               />
-              <div className="flex flex-col gap-2">
-                <p className="text-[15px] font-semibold text-[#222b45]">
+              <div className="flex flex-col gap-1">
+                <p className="text-[15px] font-semibold text-[#222b45] flex items-center gap-2">
                   {workerDetails?.fullName}
+                  {workerDetails.recommend ? (
+                    <PiSealCheckFill size={14} className="text-[#14ABE3]" />
+                  ) : (
+                    ""
+                  )}
                 </p>
                 <p className="text-[13px] text-[#8f9bb3]">
                   {workerDetails?.profession?.name}

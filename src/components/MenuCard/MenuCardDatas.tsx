@@ -18,9 +18,9 @@ export const MenuCardDatas: MenuCardItem[] = [
     url: "/dashboard/workers",
   },
   {
-    title: "Holidays",
+    title: "Professions",
     icon: Holidays,
-    url: "/dashboard/holidays",
+    url: "/dashboard/professions",
   },
   {
     title: "Events",

@@ -16,6 +16,7 @@ import * as yup from "yup";
 
 interface UserContextType {
   users: User[];
+  customers: User[];
   setUserId: any;
   vacations: any;
   callHistory: any;
@@ -33,6 +34,7 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 
 const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [users, setUsers] = useState<User[]>([]);
+  const [customers, setCustomer] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [userId, setUserId] = useState(null);
@@ -45,17 +47,52 @@ const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       try {
         const response = await fetchRequest("workers");
 
-        // console.log(response.data);
-
-        const data = await response.data;
-        setUsers(data);
+        // Assurez-vous que response.data est bien un tableau
+        if (Array.isArray(response.data)) {
+          const sortedData = response.data.sort(
+            (a: User, b: User) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+          setUsers(sortedData);
+        } else {
+          throw new Error("Les données reçues ne sont pas au format attendu.");
+        }
       } catch (error: any) {
-        setError(error.message);
+        setError(error.message || "Une erreur est survenue");
       } finally {
         setLoading(false);
       }
     };
 
+    const fetchCustomers = async () => {
+      try {
+        const response = await fetchRequest("users");
+
+        // Assurez-vous que response.data est bien un tableau
+        if (Array.isArray(response.data)) {
+          // Filtrer les utilisateurs avec le rôle "CUSTOMER"
+          const customers = response.data.filter(
+            (user: User) => user.role === "CUSTOMER"
+          );
+
+          // Trier les customers par date de création (du plus récent au plus ancien)
+          const sortedData = customers.sort(
+            (a: User, b: User) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+
+          // Mettre à jour l'état avec les customers triés
+          setCustomer(sortedData);
+        } else {
+          throw new Error("Les données reçues ne sont pas au format attendu.");
+        }
+      } catch (error: any) {
+        setError(error.message || "Une erreur est survenue");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCustomers();
     fetchUsers();
   }, []);
 
@@ -173,6 +210,7 @@ const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         recommendedWorker,
         getWorkerCallHistory,
         editUser,
+        customers,
       }}
     >
       {children}
