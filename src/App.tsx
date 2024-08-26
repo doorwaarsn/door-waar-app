@@ -5,6 +5,7 @@ import { AuthProvider } from "./contexts/auth/auth.provider";
 import { UserProvider } from "./contexts/users/users.provider";
 import { ThemeProvider } from "./layout/ThemeContext";
 import { DepartmentProvider } from "./contexts/Department/department.provider";
+import { CommentProvider } from "./contexts/Comment/Comment.provider";
 
 function App() {
   return (
@@ -12,9 +13,11 @@ function App() {
       <AuthProvider>
         <UserProvider>
           <DepartmentProvider>
-                  <ThemeProvider>
-                    <GDINRoutes />
-                  </ThemeProvider>
+            <CommentProvider>
+              <ThemeProvider>
+                <GDINRoutes />
+              </ThemeProvider>
+            </CommentProvider>
           </DepartmentProvider>
         </UserProvider>
       </AuthProvider>

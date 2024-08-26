@@ -11,7 +11,9 @@ const ListOfEmployees = ({ user }: any) => {
         <div className="flex items-center gap-2">
           <span
             className={`${
-              user.recommend ? "border-2 border-[#14ABE3]" : "border-2 border-blue-100"
+              user.recommend
+                ? "border-2 border-[#14ABE3]"
+                : "border-2 border-blue-100"
             }  rounded-full`}
           >
             <img
@@ -37,7 +39,7 @@ const ListOfEmployees = ({ user }: any) => {
       </td>
       <td className="px-4 py-1 border-b border-blue-gray-50">
         <p className="block text-[12px] font-normal leading-[1.25] text-left text-[#222b45]">
-          {user.profession.name}
+          {user.profession?.name}
         </p>
       </td>
       <td className="px-4 py-1 border-b border-blue-gray-50">

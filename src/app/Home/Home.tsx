@@ -18,7 +18,6 @@ const Home = () => {
   const { profile } = useContext(AuthContext);
   const { users } = useUsers();
 
-
   return (
     <div className="w-full h-auto flex flex-col gap-6 items-start pb-10">
       <div className="w-full flex flex-col gap-3">
@@ -27,7 +26,7 @@ const Home = () => {
         </h6>
         <p className="text-[13px] font-normal leading-[1.23] text-left text-[#222b45]">
           Mesurez la croissance de vos chiffres récurrent mensuel.{" "}
-          <span className="text-[#14ABE3] cursor-pointer">Learn More</span>
+          <span className="text-[#14ABE3] cursor-pointer">Voir plus</span>
         </p>
       </div>
       <div className="w-full flex justify-between items-center py-4">
