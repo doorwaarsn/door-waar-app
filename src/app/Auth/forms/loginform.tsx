@@ -35,7 +35,7 @@ export const LoginForm: React.FC = () => {
     ? JSON.parse(localStorage.getItem("user")!)
     : null;
 
-  const roleAsString = user?.role ?? "";
+  const roleAsString = user?.role ?? null;
 
   useEffect(() => {
     if (status === AuthStatus.logged) {

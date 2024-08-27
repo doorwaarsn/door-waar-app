@@ -27,7 +27,7 @@ const Customers = () => {
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const usersPerPage = 15;
+  const usersPerPage = 20;
 
   const { filteredUsers, totalPages } = useMemo(() => {
     const lowerQuery = query.toLowerCase();

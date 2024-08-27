@@ -10,7 +10,7 @@ const ListOfDepartments = ({ datas, loading, error }: any) => {
   const [filteredProfessions, setFilteredProfessions] = useState<any[]>([]);
   const [query, setQuery] = useState("");
 
-  const usersPerPage = 10;
+  const usersPerPage = 15;
 
   useEffect(() => {
     if (query.trim() === "") {

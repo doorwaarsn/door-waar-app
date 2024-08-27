@@ -7,22 +7,22 @@ const ListOfCustomers = ({ datas }: any) => {
     <>
       {datas.map((item: any) => (
         <tr key={item}>
-          <td className="px-4 py-1 border-b border-blue-gray-50">
+          <td className="px-4 py-2 border-b border-blue-gray-50">
             <input type="checkbox" />
           </td>
-          <td className="px-4 py-1 text-[12px] font-normal tracking-normal leading-5 text-left text-gray-800 border-b border-blue-gray-50">
+          <td className="px-4 py-2 text-[12px] font-normal tracking-normal leading-5 text-left text-gray-800 border-b border-blue-gray-50">
             {item?.fullName}
           </td>
-          <td className="px-4 py-1 text-[12px] font-normal tracking-normal leading-5 text-center text-gray-800 border-b border-blue-gray-50">
+          <td className="px-4 py-2 text-[12px] font-normal tracking-normal leading-5 text-center text-gray-800 border-b border-blue-gray-50">
             {item?.phoneNumber}
           </td>
-          <td className="px-4 py-1 text-[12px] font-normal tracking-normal leading-5 text-center text-gray-800 border-b border-blue-gray-50">
+          <td className="px-4 py-2 text-[12px] font-normal tracking-normal leading-5 text-center text-gray-800 border-b border-blue-gray-50">
             {item?.role}
           </td>
-          <td className="px-4 py-1 text-[12px] font-normal tracking-normal leading-5 text-center text-gray-800 border-b border-blue-gray-50">
+          <td className="px-4 py-2 text-[12px] font-normal tracking-normal leading-5 text-center text-gray-800 border-b border-blue-gray-50">
             {formatDate(item?.createdAt)}
           </td>
-          <td className="px-4 py-1 text-[12px] font-normal tracking-normal leading-5 text-center text-gray-800 border-b border-blue-gray-50">
+          <td className="px-4 py-2 text-[12px] font-normal tracking-normal leading-5 text-center text-gray-800 border-b border-blue-gray-50">
             <div className=" flex justify-center items-center gap-5">
               <button className="flex items-center justify-center">
                 <img src={Pencil} alt="Edit" />

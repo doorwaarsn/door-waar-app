@@ -105,7 +105,7 @@ const Employee = () => {
     } as { [key: number]: UserType[] };
   }, [filteredUsers]);
 
-  const usersPerPage = 10;
+  const usersPerPage = 15;
   const [currentPage, setCurrentPage] = useState(1);
 
   const currentUsers = useMemo(() => {
@@ -122,7 +122,6 @@ const Employee = () => {
 
   const handlePagination = (pageNumber: number) => setCurrentPage(pageNumber);
   const handleViewModeChange = (view: typeof viewMode) => setViewMode(view);
-
 
   return (
     <div className="w-full h-auto flex flex-col gap-4 items-center">
@@ -338,13 +337,13 @@ const UserTable = ({
               </tbody>
             </table>
           </div>
-          <div className="flex justify-center mt-4 w-full">
-            <Pagination
-              totalPages={totalPages}
-              currentPage={currentPage}
-              paginate={paginate}
-            />
-          </div>
+        </div>
+        <div className="flex justify-center mt-4 w-full">
+          <Pagination
+            totalPages={totalPages}
+            currentPage={currentPage}
+            paginate={paginate}
+          />
         </div>
       </div>
     )}
