@@ -11,6 +11,7 @@ import { Comment } from "./Comment.model";
 
 interface CommentContextType {
   comments: any;
+  calls: any;
   loading: boolean;
   error: string | null;
   getCommentById: (id: string) => Promise<void>;
@@ -21,6 +22,7 @@ const CommentContext = createContext<CommentContextType | undefined>(undefined);
 
 const CommentProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [comments, setComments] = useState<Comment[]>([]);
+  const [calls, setCalls] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [comment, setComment] = useState<Comment | null>(null);
@@ -55,6 +57,32 @@ const CommentProvider: FC<{ children: ReactNode }> = ({ children }) => {
     fetchComments();
   }, []);
 
+  useEffect(() => {
+    const fetchCalls = async () => {
+      try {
+        const response = await fetchRequest("callHistory");
+        const allCalls = response.data;
+
+        const filteredCalls = allCalls.filter(
+          (call: any) => call.worker !== null
+        );
+
+        const sortedCalls = filteredCalls.sort(
+          (a: any, b: any) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+
+        const recentFiveCalls = sortedCalls.slice(0, 7);
+        setCalls(recentFiveCalls);
+      } catch (error: any) {
+        setError(error.message || "An error occurred while fetching comments.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCalls();
+  }, []);
 
   const getCommentById = async (id: string) => {
     setLoading(true);
@@ -78,6 +106,7 @@ const CommentProvider: FC<{ children: ReactNode }> = ({ children }) => {
         error,
         getCommentById,
         comment,
+        calls,
       }}
     >
       {children}
