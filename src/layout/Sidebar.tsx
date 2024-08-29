@@ -55,7 +55,7 @@ const Sidebar = () => {
         } `}
       >
         {openNav ? (
-          <div className="relative w-20 h-20 ml-4">
+          <Link to={"/dashboard"} className="relative w-20 h-20 ml-4">
             <img
               src={LOGO}
               alt="Logo"
@@ -70,15 +70,15 @@ const Sidebar = () => {
                 WebkitMaskPosition: "center",
               }}
             ></div>
-          </div>
+          </Link>
         ) : (
-          <div className="w-full h-20 flex justify-center">
+          <Link to={"/dashboard"} className="w-full h-20 flex justify-center">
             <img
               src={DoorWaar}
               alt="Logo"
               className=" w-[40px] h-[40px] object-contain mt-4 rounded-sm"
             />
-          </div>
+          </Link>
         )}
         <div
           className={`h-full flex flex-col gap-5

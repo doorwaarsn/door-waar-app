@@ -30,7 +30,7 @@ const CommentProvider: FC<{ children: ReactNode }> = ({ children }) => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const response = await fetchRequest("reviews-worker");
+        const response = await fetchRequest("reviews-worker/all");
         const allComments = response.data;
 
         // Filtrer les commentaires où b.worker ou a.worker est null
