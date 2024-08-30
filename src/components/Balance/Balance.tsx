@@ -6,6 +6,7 @@ import { IoIosClose } from "react-icons/io";
 interface CommentProps {
   worker?: {
     avatar?: { image: string }[];
+    fullName: string;
   };
   client: {
     fullName: string;
@@ -75,7 +76,7 @@ const Balance = () => {
             >
               <IoIosClose size={25} />
             </button>
-            <div className="w-full flex flex-col">
+            <div className="w-full flex flex-col h-full gap-3">
               <div className="flex w-full gap-4">
                 <div className="rounded-full overflow-hidden">
                   <img
@@ -83,16 +84,16 @@ const Balance = () => {
                       selectedComment.worker?.avatar?.[0]?.image ||
                       "default.png"
                     }`}
-                    alt={selectedComment.client.fullName}
+                    alt={selectedComment.worker?.fullName}
                     className="w-[50px] h-[50px] object-cover rounded-full"
                   />
                 </div>
                 <div className="flex flex-col justify-center">
                   <h5 className="text-[13px] font-semibold">
-                    {selectedComment.client.fullName}
+                    {selectedComment.worker?.fullName}
                   </h5>
                   <p className="text-[10px]">
-                    {selectedComment.client.phoneNumber}
+                    {selectedComment.worker?.fullName}
                   </p>
                 </div>
               </div>
@@ -102,6 +103,15 @@ const Balance = () => {
               <span className="text-[10px] text-[#8f9bb3]">
                 {formatDate(selectedComment.createdAt)}
               </span>
+              <div className="flex gap-3 items-center b-0">
+                <span className="text-[14px] font-semibold">Auteur:</span>
+                <p className="text-[13px]">
+                  {selectedComment.client?.fullName},
+                </p>
+                <p className="text-[10px]">
+                  {selectedComment.client?.phoneNumber}
+                </p>
+              </div>
             </div>
           </div>
         </div>

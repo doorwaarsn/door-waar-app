@@ -72,7 +72,7 @@ const CommentProvider: FC<{ children: ReactNode }> = ({ children }) => {
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         );
 
-        const recentFiveCalls = sortedCalls.slice(0, 7);
+        const recentFiveCalls = sortedCalls.slice(0, 10);
         setCalls(recentFiveCalls);
       } catch (error: any) {
         setError(error.message || "An error occurred while fetching comments.");

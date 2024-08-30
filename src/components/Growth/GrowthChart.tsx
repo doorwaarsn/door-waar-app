@@ -1,23 +1,62 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { useComments } from "../../contexts/Comment/Comment.provider";
-import { IoLogoWhatsapp } from "react-icons/io";
+import { IoIosClose, IoLogoWhatsapp } from "react-icons/io";
 import { HiPhoneArrowDownLeft } from "react-icons/hi2";
 import { format } from "date-fns";
+import { IoCallSharp } from "react-icons/io5";
+import { MdPhoneCallback } from "react-icons/md";
+
+interface CommentProps {
+  callType: string;
+  worker?: {
+    avatar?: { image: string }[];
+    fullName: string;
+    phoneNumber: string;
+    profession?: { name?: string };
+    address: string;
+  };
+  userApp: {
+    fullName: string;
+    phoneNumber: string;
+  };
+  comment: string;
+  createdAt: string;
+}
 
 const GrowthChart = () => {
   const { calls } = useComments();
+  const [isSliderOpen, setIsSliderOpen] = useState(false);
+  const [selectedComment, setSelectedComment] = useState<CommentProps | null>(
+    null
+  );
+
+  const closeSlider = useCallback(() => {
+    setIsSliderOpen(false);
+    setSelectedComment(null); // Réinitialiser les données sélectionnées
+  }, []);
+
+  const openSlider = useCallback((comment: CommentProps) => {
+    setSelectedComment(comment);
+    setIsSliderOpen(true);
+  }, []);
+
+  console.log(calls);
 
   return (
-    <div className="flex-1 h-[444px] p-5 rounded-[8px] border border-[#eff4fa] bg-[#fff] flex flex-col justify-between  items-center">
-      <div className="w-full flex justify-between items-center border-b border-[#eff4fa] pb-2">
+    <div className="flex-1 h-[444px] pt-5 rounded-[8px] border border-[#eff4fa] bg-[#fff] flex flex-col justify-between  items-center">
+      <div className="w-full flex px-5 justify-between items-center border-b border-[#eff4fa] pb-2">
         <h6 className="text-[17px] font-semibold leading-[0.94] text-left text-[#222b45]">
           Derniers Appels
         </h6>
       </div>
-      <div className="flow-root w-full">
-        <ul role="list" className="divide-y divide-gray-200">
-          {calls.map((item: any) => (
-            <li className="py-1 sm:py-2">
+      <div className="flow-root w-full pb-2 overflow-y-auto ">
+        <ul role="list" className="divide-y divide-gray-200 w-full ">
+          {calls.map((item: any, index: number) => (
+            <li
+              key={index}
+              onClick={() => openSlider(item)}
+              className="py-1 sm:py-2 w-full px-5 hover:bg-[#eff4fa]"
+            >
               <div className="flex items-center space-x-4">
                 <div className="flex-shrink-0">
                   {item.callType === "CALL" ? (
@@ -46,6 +85,62 @@ const GrowthChart = () => {
               </div>
             </li>
           ))}
+
+          {isSliderOpen && selectedComment && (
+            <div className="w-full fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
+              <div className="relative w-[500px] h-[300px] bg-white flex flex-col gap-4 p-4 rounded-md">
+                <button
+                  onClick={closeSlider}
+                  className="absolute top-3 right-3 text-black"
+                >
+                  <IoIosClose size={25} />
+                </button>
+                <div className="w-full flex flex-col mt-5">
+                  <div className="flex items-center space-x-4">
+                    <div className="flex-shrink-0">
+                      <IoCallSharp className="text-[#14ABE3]" size={24} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[12px] font-semibold text-gray-900 truncate">
+                        {selectedComment.userApp?.fullName}
+                      </p>
+                      <p className="text-[11px] text-gray-500 truncate">
+                        {selectedComment.userApp?.phoneNumber}
+                      </p>
+                    </div>
+                    <div className="inline-flex items-center text-[11px] text-gray-500 truncate">
+                      {format(
+                        new Date(selectedComment?.createdAt),
+                        "dd/MM/yyyy - HH:mm"
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <div className="w-full flex flex-col mt-5">
+                  <div className="flex items-center space-x-4">
+                    <div className="flex-shrink-0">
+                      <MdPhoneCallback className=" text-green-600" size={24} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[12px] font-semibold text-gray-900 truncate">
+                        {selectedComment.worker?.fullName}
+                      </p>
+                      <p className="text-[11px] text-gray-500 truncate">
+                        {selectedComment.worker?.profession?.name}
+                      </p>
+                      <p className="text-[11px] text-gray-500 truncate">
+                        {selectedComment.worker?.phoneNumber}
+                      </p>
+                    </div>
+                    <div className="inline-flex items-center text-[11px] text-gray-500 truncate">
+                      {" "}
+                      {selectedComment.worker?.address}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </ul>
       </div>
     </div>
