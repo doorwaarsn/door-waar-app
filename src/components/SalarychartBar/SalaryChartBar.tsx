@@ -26,7 +26,7 @@ const monthTranslations: { [key: string]: string } = {
   Dec: "Déc",
 };
 
-const SalaryChartBar = ({ users }: any) => {
+const EmployeechartBar = ({ users }: any) => {
   // Initialiser un tableau avec tous les mois en français
   const allMonths = Object.values(monthTranslations);
 
@@ -106,4 +106,4 @@ const SalaryChartBar = ({ users }: any) => {
   );
 };
 
-export default SalaryChartBar;
+export default EmployeechartBar;

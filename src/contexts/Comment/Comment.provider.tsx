@@ -45,7 +45,7 @@ const CommentProvider: FC<{ children: ReactNode }> = ({ children }) => {
         );
 
         // Sélectionner les 5 commentaires les plus récents
-        const recentFiveComments = sortedComments.slice(0, 5);
+        const recentFiveComments = sortedComments.slice(0, 10);
         setComments(recentFiveComments);
       } catch (error: any) {
         setError(error.message || "An error occurred while fetching comments.");

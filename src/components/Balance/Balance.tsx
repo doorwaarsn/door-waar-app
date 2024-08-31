@@ -2,11 +2,16 @@ import { useState, useCallback } from "react";
 import { useComments } from "../../contexts/Comment/Comment.provider";
 import { API_URL } from "../../env";
 import { IoIosClose } from "react-icons/io";
+import { Link } from "react-router-dom";
+import { IoIosArrowForward } from "react-icons/io";
 
 interface CommentProps {
   worker?: {
+    id: number;
     avatar?: { image: string }[];
     fullName: string;
+    phoneNumber: string;
+    profession: { name: string };
   };
   client: {
     fullName: string;
@@ -40,33 +45,37 @@ const Balance = () => {
           Commentaires
         </h6>
       </div>
-      {comments.slice(-5).map((item: CommentProps, index: number) => (
-        <div
-          key={index}
-          onClick={() => openSlider(item)}
-          className="w-full flex items-center gap-2 hover:bg-[#eff4fa] px-5 py-2"
-        >
-          <div className="rounded-full overflow-hidden">
-            <img
-              src={`${API_URL}/resources/${
-                item.worker?.avatar?.[0]?.image || "default.png"
-              }`}
-              alt={item.client.fullName}
-              className="w-[50px] h-[50px] object-cover rounded-full"
-            />
+      <div className="w-full overflow-y-auto ">
+        {comments.slice(-10).map((item: CommentProps, index: number) => (
+          <div
+            key={index}
+            onClick={() => openSlider(item)}
+            className="w-full flex items-center gap-2 hover:bg-[#eff4fa] px-5 py-2 cursor-pointer"
+          >
+            <div className="rounded-full overflow-hidden">
+              <img
+                src={`${API_URL}/resources/${
+                  item.worker?.avatar?.[0]?.image || "default.png"
+                }`}
+                alt={item.client.fullName}
+                className="w-[50px] h-[50px] object-cover rounded-full"
+              />
+            </div>
+            <div className="flex flex-col items-start gap-4 w-[90%]">
+              <h5 className="text-[13px] font-normal leading-[0.67] text-left text-[#44464b] flex gap-3 w-full justify-between items-center">
+                {item.client.fullName}{" "}
+                <span className="text-[10px]">{item.client.phoneNumber}</span>
+              </h5>
+              <p className="text-[12px] font-normal leading-[0.67] text-left text-[#8f9bb3] flex items-center gap-3 justify-between w-full">
+                <TruncatedText text={item.comment} maxLength={20} />
+                <span className="text-[10px]">
+                  {formatDate(item.createdAt)}
+                </span>
+              </p>
+            </div>
           </div>
-          <div className="flex flex-col items-start gap-4 w-[90%]">
-            <h5 className="text-[13px] font-normal leading-[0.67] text-left text-[#44464b] flex gap-3 w-full justify-between items-center">
-              {item.client.fullName}{" "}
-              <span className="text-[10px]">{item.client.phoneNumber}</span>
-            </h5>
-            <p className="text-[12px] font-normal leading-[0.67] text-left text-[#8f9bb3] flex items-center gap-3 justify-between w-full">
-              <TruncatedText text={item.comment} maxLength={20} />
-              <span className="text-[10px]">{formatDate(item.createdAt)}</span>
-            </p>
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
       {isSliderOpen && selectedComment && (
         <div className="w-full fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
           <div className="relative w-[500px] h-[300px] bg-white flex flex-col gap-4 p-4 rounded-md">
@@ -78,23 +87,37 @@ const Balance = () => {
             </button>
             <div className="w-full flex flex-col h-full gap-3">
               <div className="flex w-full gap-4">
-                <div className="rounded-full overflow-hidden">
+                <Link
+                  to={`/dashboard/workers/${selectedComment.worker?.id}`}
+                  className="w-[100px] h-[100px] object-cover border-2 border-blue-100 rounded-md"
+                >
                   <img
                     src={`${API_URL}/resources/${
                       selectedComment.worker?.avatar?.[0]?.image ||
                       "default.png"
                     }`}
                     alt={selectedComment.worker?.fullName}
-                    className="w-[50px] h-[50px] object-cover rounded-full"
+                    className="w-full h-full object-cover"
                   />
-                </div>
-                <div className="flex flex-col justify-center">
-                  <h5 className="text-[13px] font-semibold">
+                </Link>
+                <div className="flex flex-col justify-start gap-1">
+                  <h5 className="text-[14px] font-semibold">
                     {selectedComment.worker?.fullName}
                   </h5>
-                  <p className="text-[10px]">
-                    {selectedComment.worker?.fullName}
+                  <p className="text-[13px]">
+                    {selectedComment.worker?.profession?.name}
                   </p>
+                  <p className="text-[13px]">
+                    {selectedComment.worker?.phoneNumber}
+                  </p>
+                  <Link
+                    to={`/dashboard/workers/${selectedComment.worker?.id}`}
+                    className="flex text-[10px] justify-center items-center gap-1 p-1 rounded-[4px] text-white w-[70px]
+                    bg-[#14ABE3]
+                  "
+                  >
+                    Voir plus <IoIosArrowForward size={12} />
+                  </Link>
                 </div>
               </div>
               <p className="text-[12px] text-[#44464b] mt-2">

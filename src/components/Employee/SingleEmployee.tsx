@@ -14,11 +14,12 @@ import { API_URL } from "../../env";
 import { useUsers } from "../../contexts/users/users.provider";
 import Comment from "./Comment";
 import { WorkersGallery } from "./WorkersGallery";
+import { useParams } from "react-router-dom";
 
 interface SingleEmployeeProps {
-  workerDetails: any;
-  setViewMode: (view: string) => void;
-  setWorkerDetails: (details: any) => void;
+  workerDetails?: any;
+  setViewMode?: (view: string) => void;
+  setWorkerDetails?: (details: any) => void;
 }
 
 const SingleEmployee: React.FC<SingleEmployeeProps> = ({
@@ -32,25 +33,31 @@ const SingleEmployee: React.FC<SingleEmployeeProps> = ({
     callHistory,
     getReviewsWorker,
     reviewWorker,
+    users,
   } = useUsers();
 
   const [workersPhone, setWorkersPhone] = useState("");
   const [isSliderOpen, setIsSliderOpen] = useState(false);
   const [image, setImage] = useState("");
+  const { id } = useParams();
+
+  const user = id
+    ? users.find((user) => user.id === Number(id))
+    : workerDetails;
 
   useEffect(() => {
     const fetchData = async () => {
-      if (workerDetails && workersPhone) {
+      if (user && workersPhone) {
         try {
-          const isRecommended = workerDetails.recommend;
+          const isRecommended = user?.recommend;
           await recommendedWorker(workersPhone);
           toast.success(
             isRecommended
-              ? `La certification du compte de ${workerDetails?.fullName} est désactivée`
-              : `Le compte de ${workerDetails?.fullName} est certifié`
+              ? `La certification du compte de ${user?.fullName} est désactivée`
+              : `Le compte de ${user?.fullName} est certifié`
           );
-          setViewMode("details");
-          setWorkerDetails(workerDetails);
+          setViewMode?.("details");
+          setWorkerDetails?.(user);
         } catch (err) {
           console.error(err);
         }
@@ -61,14 +68,14 @@ const SingleEmployee: React.FC<SingleEmployeeProps> = ({
       fetchData();
     }
 
-    if (workerDetails?.id) {
-      getWorkerCallHistory(workerDetails.id);
-      getReviewsWorker(workerDetails.id);
+    if (user?.id) {
+      getWorkerCallHistory(user.id);
+      getReviewsWorker(user.id);
     }
-  }, [workersPhone, workerDetails]);
+  }, [workersPhone, user]);
 
   const handleCertifyToggle = () => {
-    setWorkersPhone(workerDetails.phoneNumber);
+    setWorkersPhone(user.phoneNumber);
   };
 
   const closeSlider = () => setIsSliderOpen(false);
@@ -82,28 +89,28 @@ const SingleEmployee: React.FC<SingleEmployeeProps> = ({
     <div className="w-full flex gap-3 h-screen overflow-auto">
       <div className="w-2/3 flex flex-col gap-3">
         <div className="w-full flex gap-4">
-          <div className="flex-1 flex flex-col bg-white rounded-md p-4 shadow-sm justify-between">
+          <div className="flex-1 flex flex-col gap-2 bg-white rounded-md p-4 shadow-sm justify-between">
             <div className="w-full flex items-center gap-2 border-b pb-5">
               <img
-                src={`${API_URL}/resources/${workerDetails?.avatar}`}
+                src={`${API_URL}/resources/${
+                  id ? user?.avatar[0].image : user?.avatar
+                }`}
                 className="w-[100px] h-[100px] object-cover border-2 border-blue-100 rounded-md"
                 alt=""
               />
               <div className="flex flex-col gap-1">
                 <p className="text-[15px] font-semibold text-[#222b45] flex items-center gap-2">
-                  {workerDetails?.fullName}
-                  {workerDetails.recommend ? (
+                  {user?.fullName}
+                  {user.recommend ? (
                     <PiSealCheckFill size={14} className="text-[#14ABE3]" />
                   ) : (
                     ""
                   )}
                 </p>
                 <p className="text-[13px] text-[#8f9bb3]">
-                  {workerDetails?.profession?.name}
+                  {user?.profession?.name}
                 </p>
-                <p className="text-[12px] text-[#8f9bb3]">
-                  {workerDetails?.address}
-                </p>
+                <p className="text-[12px] text-[#8f9bb3]">{user?.address}</p>
                 <div className="flex items-center gap-1">
                   <img
                     src={FacebookIcon}
@@ -124,19 +131,17 @@ const SingleEmployee: React.FC<SingleEmployeeProps> = ({
                 </div>
               </div>
             </div>
-            <p className="text-[12px] text-[#8f9bb3]">
-              {workerDetails?.description}
-            </p>
+            <p className="text-[12px] text-[#8f9bb3]">{user?.description}</p>
 
             <div className="w-full flex gap-4">
               <button
                 onClick={handleCertifyToggle}
                 className={`flex text-[13px] items-center gap-1 p-1 rounded-[4px] text-white ${
-                  workerDetails.recommend ? "bg-[#14ABE3]" : "bg-yellow-500"
+                  user.recommend ? "bg-[#14ABE3]" : "bg-yellow-500"
                 }`}
               >
                 <PiSealCheckFill size={14} />
-                {workerDetails.recommend ? "Certifier" : "Non Certifier"}
+                {user.recommend ? "Certifier" : "Non Certifier"}
               </button>
               <button className="flex text-[13px] items-center gap-1 p-1 rounded-[4px] bg-green-600 text-white">
                 <PiChecksBold size={14} />
@@ -154,22 +159,20 @@ const SingleEmployee: React.FC<SingleEmployeeProps> = ({
               Complément de dossiers
             </p>
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-              {workerDetails?.cni[0]?.image && (
+              {user?.cni[0]?.image && (
                 <img
                   className="h-[220px] w-full rounded-lg object-cover cursor-pointer"
-                  src={`${API_URL}/resources/${workerDetails?.cni[0]?.image}`}
+                  src={`${API_URL}/resources/${user?.cni[0]?.image}`}
                   alt="CNI"
-                  onClick={() => openSlider(workerDetails?.cni[0]?.image)}
+                  onClick={() => openSlider(user?.cni[0]?.image)}
                 />
               )}
-              {workerDetails?.certificate[0]?.image && (
+              {user?.certificate[0]?.image && (
                 <img
                   className="h-[220px] w-full rounded-lg object-cover cursor-pointer"
-                  src={`${API_URL}/resources/${workerDetails?.certificate[0]?.image}`}
+                  src={`${API_URL}/resources/${user?.certificate[0]?.image}`}
                   alt="Certificate"
-                  onClick={() =>
-                    openSlider(workerDetails?.certificate[0]?.image)
-                  }
+                  onClick={() => openSlider(user?.certificate[0]?.image)}
                 />
               )}
 
@@ -200,7 +203,7 @@ const SingleEmployee: React.FC<SingleEmployeeProps> = ({
           <p className="text-[16px] font-semibold text-[#222b45] border-b py-3">
             Réalisations
           </p>
-          <WorkersGallery data={workerDetails.illustrator} />
+          <WorkersGallery data={user.illustrator} />
         </div>
       </div>
 

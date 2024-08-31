@@ -5,10 +5,12 @@ import { HiPhoneArrowDownLeft } from "react-icons/hi2";
 import { format } from "date-fns";
 import { IoCallSharp } from "react-icons/io5";
 import { MdPhoneCallback } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 interface CommentProps {
   callType: string;
   worker?: {
+    id?: number;
     avatar?: { image: string }[];
     fullName: string;
     phoneNumber: string;
@@ -50,7 +52,10 @@ const GrowthChart = () => {
         </h6>
       </div>
       <div className="flow-root w-full pb-2 overflow-y-auto ">
-        <ul role="list" className="divide-y divide-gray-200 w-full ">
+        <ul
+          role="list"
+          className="divide-y divide-gray-200 w-full cursor-pointer"
+        >
           {calls.map((item: any, index: number) => (
             <li
               key={index}
@@ -88,14 +93,14 @@ const GrowthChart = () => {
 
           {isSliderOpen && selectedComment && (
             <div className="w-full fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
-              <div className="relative w-[500px] h-[300px] bg-white flex flex-col gap-4 p-4 rounded-md">
+              <div className="relative w-[500px] h-[300px] bg-white flex flex-col gap-4 py-4 rounded-md">
                 <button
                   onClick={closeSlider}
                   className="absolute top-3 right-3 text-black"
                 >
                   <IoIosClose size={25} />
                 </button>
-                <div className="w-full flex flex-col mt-5">
+                <div className="w-full flex flex-col mt-5 p-4 hover:bg-[#eff4fa]">
                   <div className="flex items-center space-x-4">
                     <div className="flex-shrink-0">
                       <IoCallSharp className="text-[#14ABE3]" size={24} />
@@ -116,7 +121,10 @@ const GrowthChart = () => {
                     </div>
                   </div>
                 </div>
-                <div className="w-full flex flex-col mt-5">
+                <Link
+                  to={`/dashboard/workers/${selectedComment.worker?.id}`}
+                  className="w-full flex flex-col hover:bg-[#eff4fa] p-4"
+                >
                   <div className="flex items-center space-x-4">
                     <div className="flex-shrink-0">
                       <MdPhoneCallback className=" text-green-600" size={24} />
@@ -137,7 +145,7 @@ const GrowthChart = () => {
                       {selectedComment.worker?.address}
                     </div>
                   </div>
-                </div>
+                </Link>
               </div>
             </div>
           )}

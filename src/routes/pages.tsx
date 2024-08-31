@@ -18,6 +18,7 @@ import { GDINPaths } from "./paths";
 
 // import SingleEmployee from "../components/Employee/SingleEmployee";
 import Customers from "../app/Customers/Customers";
+import SingleEmployee from "../components/Employee/SingleEmployee";
 
 export const useNavigationPaths = [
   {
@@ -54,6 +55,11 @@ export const useNavigationPaths = [
     title: "Employee",
     path: GDINPaths.Employee,
     element: <Employee />,
+  },
+  {
+    title: "Details Employee",
+    path: GDINPaths.EmployeeDetails,
+    element: <SingleEmployee />,
   },
   {
     title: "Customer",
