@@ -27,12 +27,12 @@ const renderActiveShape = (props: any) => {
 };
 
 interface Props {
-  users: any[]; // Assure-toi que le type des utilisateurs est correct
+  directUsers: any[]
+  organicUsers: any[]
 }
 
-const RChart = ({ users }: Props) => {
-  const directUsers = users.filter((user) => user.recommend === true);
-  const organicUsers = users.filter((user) => user.recommend === false);
+const RChart = ({ directUsers, organicUsers}: Props) => {
+
 
   const data = [
     {
@@ -87,7 +87,7 @@ const RChart = ({ users }: Props) => {
               style={{ background: entry.color }}
             />
             <p className="text-[12px] font-normal leading-[1.33] text-left text-[#8f9bb3]">
-              {entry.name}
+              {entry.name} ({entry.value})
             </p>
           </div>
         ))}

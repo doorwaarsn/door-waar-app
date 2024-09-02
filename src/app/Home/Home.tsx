@@ -1,22 +1,32 @@
 import { MenuCardDatas } from "../../components/MenuCard/MenuCardDatas";
 import MenuCard from "../../components/MenuCard/MenuCard";
 import SalaryChartBar from "../../components/SalarychartBar/SalaryChartBar";
-import DefaultOn from "../../assets/icons/1) Default_ ON.svg";
 import RevenuChart from "../../components/RevenuChart/RevenuChart";
 import { Link } from "react-router-dom";
 import Balance from "../../components/Balance/Balance";
-import { IoMdMenu } from "react-icons/io";
 import EmployeechartBar from "../../components/EmployeechartBar/EmployeechartBar";
 import GrowthChart from "../../components/Growth/GrowthChart";
 import Performance from "../../components/Performance/Performance";
 import ProjectSummary from "../../components/ProjectSummary/ProjectSummary";
-import { useContext } from "react";
+import { useContext} from "react";
 import AuthContext from "../../contexts/auth/auth.context";
 import { useUsers } from "../../contexts/users/users.provider";
+import * as XLSX from 'xlsx';
 
 const Home = () => {
   const { profile } = useContext(AuthContext);
   const { users, customers } = useUsers();
+
+
+    const handleExport = (data:any) => {
+      const workbook = XLSX.utils.book_new();
+
+      const worksheet = XLSX.utils.json_to_sheet(data);
+
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Données");
+
+      XLSX.writeFile(workbook, "data.xlsx");
+    };
 
   return (
     <div className="w-full h-auto flex flex-col gap-6 items-start pb-10">
@@ -50,14 +60,15 @@ const Home = () => {
           <SalaryChartBar users={users} />
 
           <div className="w-full flex  items-center">
-            <button className="w-[157px] h-[34px] mt-[28px] mr-[15px] mb-0 ml-[20px] py-[9px] pl-[28.1px] pr-[27.9px] rounded-[22px] bg-[#00e096] text-[13px] font-normal leading-[1.23] text-center text-white">
-              Generate Report
+            <button
+                onClick={()=>handleExport(users)}
+                className="w-[170px] h-[34px] mt-[28px] mr-[15px] mb-0 ml-[20px] py-[9px] pl-[28.1px] pr-[27.9px] rounded-[22px] bg-[#00e096] text-[13px] font-normal leading-[1.23] text-center text-white">
+              Exporter en Excel
             </button>
             <p className="text-[12px] font-normal leading-[0.67] text-center text-[#8f9bb3] mt-6 flex flex-col items-start gap-3">
-              Measure how fast you're growing monthly recurring revenue.
-              <Link to={"#"} className="text-[#14ABE3]">
-                {" "}
-                Learn More
+              Mesurez la vitesse à laquelle votre nombre d'utilisateurs croît chaque mois.
+              <Link to={"/dashboard/workers"} className="text-[#14ABE3]">
+                Voir plus
               </Link>
             </p>
           </div>
