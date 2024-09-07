@@ -36,15 +36,15 @@ export function WorkersGallery({ data }: any) {
     <div>
       {/* Galerie d'images */}
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-4">
-        {data.map((item: any, index: any) => (
-          <div key={index}>
-            <img
-              className="h-40 w-full max-w-full rounded-lg object-cover object-center cursor-pointer"
-              src={`${API_URL}/resources/${item.image}`}
-              alt={`gallery-photo-${index}`}
-              onClick={() => openSlider(index)} // Ouvre le slider lors du clic
-            />
-          </div>
+        {data && Array.isArray(data) && data.map((item: any, index: any) => (
+            <div key={index}>
+              <img
+                  className="h-40 w-full max-w-full rounded-lg object-cover object-center cursor-pointer"
+                  src={`${API_URL}/resources/${item.image}`}
+                  alt={`gallery-photo-${index}`}
+                  onClick={() => openSlider(index)} // Ouvre le slider lors du clic
+              />
+            </div>
         ))}
       </div>
 

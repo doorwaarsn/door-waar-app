@@ -9,7 +9,7 @@ import { useDepartments } from "../../contexts/Department/department.provider";
 
 const Department = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeView, setActiveView] = useState(1);
+  const [activeView, setActiveView] = useState(2);
   const { departments, loading, error } = useDepartments();
 
   const handleViewChange = (view: number) => {

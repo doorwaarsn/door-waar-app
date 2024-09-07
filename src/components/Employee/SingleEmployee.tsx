@@ -14,7 +14,7 @@ import { API_URL } from "../../env";
 import { useUsers } from "../../contexts/users/users.provider";
 import Comment from "./Comment";
 import { WorkersGallery } from "./WorkersGallery";
-import { useParams } from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 
 interface SingleEmployeeProps {
   workerDetails?: any;
@@ -40,8 +40,13 @@ const SingleEmployee: React.FC<SingleEmployeeProps> = ({
   const [isSliderOpen, setIsSliderOpen] = useState(false);
   const [image, setImage] = useState("");
   const { id } = useParams();
+  const location = useLocation();
 
-  const user = id
+  const pathSegments = location.pathname.split("/");
+
+  const secondSegment = pathSegments[2];
+  console.log(secondSegment)
+  const user = id && secondSegment === "workers"
     ? users.find((user) => user.id === Number(id))
     : workerDetails;
 
@@ -75,7 +80,7 @@ const SingleEmployee: React.FC<SingleEmployeeProps> = ({
   }, [workersPhone, user]);
 
   const handleCertifyToggle = () => {
-    setWorkersPhone(user.phoneNumber);
+    setWorkersPhone(user?.phoneNumber);
   };
 
   const closeSlider = () => setIsSliderOpen(false);
@@ -85,6 +90,7 @@ const SingleEmployee: React.FC<SingleEmployeeProps> = ({
     setImage(image);
   };
 
+
   return (
     <div className="w-full flex gap-3 h-screen overflow-auto">
       <div className="w-2/3 flex flex-col gap-3">
@@ -93,7 +99,7 @@ const SingleEmployee: React.FC<SingleEmployeeProps> = ({
             <div className="w-full flex items-center gap-2 border-b pb-5">
               <img
                 src={`${API_URL}/resources/${
-                  id ? user?.avatar[0].image : user?.avatar
+                  id && secondSegment === "workers" ? user?.avatar[0].image : user?.avatar
                 }`}
                 className="w-[100px] h-[100px] object-cover border-2 border-blue-100 rounded-md"
                 alt=""
@@ -101,7 +107,7 @@ const SingleEmployee: React.FC<SingleEmployeeProps> = ({
               <div className="flex flex-col gap-1">
                 <p className="text-[15px] font-semibold text-[#222b45] flex items-center gap-2">
                   {user?.fullName}
-                  {user.recommend ? (
+                  {user?.recommend ? (
                     <PiSealCheckFill size={14} className="text-[#14ABE3]" />
                   ) : (
                     ""
@@ -137,11 +143,11 @@ const SingleEmployee: React.FC<SingleEmployeeProps> = ({
               <button
                 onClick={handleCertifyToggle}
                 className={`flex text-[13px] items-center gap-1 p-1 rounded-[4px] text-white ${
-                  user.recommend ? "bg-[#14ABE3]" : "bg-yellow-500"
+                  user?.recommend ? "bg-[#14ABE3]" : "bg-yellow-500"
                 }`}
               >
                 <PiSealCheckFill size={14} />
-                {user.recommend ? "Certifier" : "Non Certifier"}
+                {user?.recommend ? "Certifier" : "Non Certifier"}
               </button>
               <button className="flex text-[13px] items-center gap-1 p-1 rounded-[4px] bg-green-600 text-white">
                 <PiChecksBold size={14} />
@@ -203,7 +209,7 @@ const SingleEmployee: React.FC<SingleEmployeeProps> = ({
           <p className="text-[16px] font-semibold text-[#222b45] border-b py-3">
             Réalisations
           </p>
-          <WorkersGallery data={user.illustrator} />
+          <WorkersGallery data={user?.illustrator} />
         </div>
       </div>
 
@@ -213,7 +219,7 @@ const SingleEmployee: React.FC<SingleEmployeeProps> = ({
             Commentaires
           </p>
           {reviewWorker.map((item: any) => (
-            <Comment key={item.id} item={item} />
+            <Comment key={item?.id} item={item} />
           ))}
         </div>
 
@@ -223,11 +229,11 @@ const SingleEmployee: React.FC<SingleEmployeeProps> = ({
           </p>
           {callHistory.map((item: any) => (
             <div
-              key={item.id}
+              key={item?.id}
               className="border rounded-md flex justify-between p-2"
             >
               <div className="flex items-center gap-2">
-                {item.callType === "CALL" ? (
+                {item?.callType === "CALL" ? (
                   <HiPhoneArrowDownLeft size={32} className="text-[#14ABE3]" />
                 ) : (
                   <IoLogoWhatsapp size={32} className="text-green-600" />
