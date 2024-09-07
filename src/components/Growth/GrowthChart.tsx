@@ -12,14 +12,14 @@ interface CommentProps {
   worker?: {
     id?: number;
     avatar?: { image: string }[];
-    fullName: string;
-    phoneNumber: string;
+    fullName?: string;
+    phoneNumber?: string;
     profession?: { name?: string };
     address: string;
   };
   userApp: {
-    fullName: string;
-    phoneNumber: string;
+    fullName?: string;
+    phoneNumber?: string;
   };
   comment: string;
   createdAt: string;
@@ -42,7 +42,6 @@ const GrowthChart = () => {
     setIsSliderOpen(true);
   }, []);
 
-  console.log(calls);
 
   return (
     <div className="flex-1 h-[444px] pt-5 rounded-[8px] border border-[#eff4fa] bg-[#fff] flex flex-col justify-between  items-center">

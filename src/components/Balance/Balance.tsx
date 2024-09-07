@@ -57,19 +57,19 @@ const Balance = () => {
                 src={`${API_URL}/resources/${
                   item.worker?.avatar?.[0]?.image || "default.png"
                 }`}
-                alt={item.client.fullName}
+                alt={item.client?.fullName}
                 className="w-[50px] h-[50px] object-cover rounded-full"
               />
             </div>
             <div className="flex flex-col items-start gap-4 w-[90%]">
               <h5 className="text-[13px] font-normal leading-[0.67] text-left text-[#44464b] flex gap-3 w-full justify-between items-center">
-                {item.client.fullName}{" "}
-                <span className="text-[10px]">{item.client.phoneNumber}</span>
+                {item.client?.fullName}{" "}
+                <span className="text-[10px]">{item.client?.phoneNumber}</span>
               </h5>
               <p className="text-[12px] font-normal leading-[0.67] text-left text-[#8f9bb3] flex items-center gap-3 justify-between w-full">
-                <TruncatedText text={item.comment} maxLength={20} />
+                <TruncatedText text={item?.comment} maxLength={20} />
                 <span className="text-[10px]">
-                  {formatDate(item.createdAt)}
+                  {formatDate(item?.createdAt)}
                 </span>
               </p>
             </div>
@@ -121,10 +121,10 @@ const Balance = () => {
                 </div>
               </div>
               <p className="text-[12px] text-[#44464b] mt-2">
-                {selectedComment.comment}
+                {selectedComment?.comment}
               </p>
               <span className="text-[10px] text-[#8f9bb3]">
-                {formatDate(selectedComment.createdAt)}
+                {formatDate(selectedComment?.createdAt)}
               </span>
               <div className="flex gap-3 items-center b-0">
                 <span className="text-[14px] font-semibold">Auteur:</span>
