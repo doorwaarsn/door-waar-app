@@ -1,5 +1,6 @@
 import { PiSealCheckFill } from "react-icons/pi";
 import { API_URL } from "../../env";
+import React from "react";
 
 const ListOfEmployees = ({ user }: any) => {
   return (
@@ -39,7 +40,7 @@ const ListOfEmployees = ({ user }: any) => {
       </td>
       <td className="px-4 py-1 border-b border-blue-gray-50">
         <p className="block text-[12px] font-normal leading-[1.25] text-left text-[#222b45]">
-          {user.profession?.name}
+          {user.profession.name}
         </p>
       </td>
       <td className="px-4 py-1 border-b border-blue-gray-50">
