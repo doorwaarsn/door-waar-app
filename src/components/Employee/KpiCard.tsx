@@ -7,12 +7,17 @@ const KpiCard = ({
   num,
   totaluser,
 }: any) => {
-  const porcentUser =
-    title === "Total Workers"
-      ? 100
-      : users?.length && totaluser?.length
-      ? (users.length / totaluser.length) * 100
-      : 0;
+
+  const porcentUser = (() => {
+    if (title === "Total Workers") {
+      return 100;
+    }
+    if (users.length && totaluser.length) {
+      return (users.length / totaluser.length) * 100;
+    }
+    return 0;
+  })();
+
 
   return (
     <div
