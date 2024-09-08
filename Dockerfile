@@ -4,7 +4,8 @@ RUN mkdir -p /app
 COPY . /app
 WORKDIR /app
 RUN rm -rf /app/package-lock.json
-#RUN npm install --legacy-peer-deps
+RUN npm install --legacy-peer-deps
+ENV NODE_OPTIONS=--openssl-legacy-provider
 RUN npm run build
 
 FROM  nginx:latest
