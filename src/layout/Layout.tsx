@@ -1,6 +1,7 @@
 import { useTheme } from "./ThemeContext";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
+import React from "react";
 
 interface AppProps {
   children: React.ReactNode;

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useUsers } from "../../contexts/users/users.provider";
 import { toast } from "react-toastify";
 import { useDepartments } from "../../contexts/Department/department.provider";
+import React from "react";
 
 const AddUsers = ({ showModal, setShowModal }: any) => {
   const { createUser, error } = useUsers();

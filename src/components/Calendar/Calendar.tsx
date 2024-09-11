@@ -78,7 +78,7 @@ const MyCalendar: React.FC<MyCalendarProps> = ({ myEventsList }) => {
         eventPropGetter={eventStyleGetter}
         onSelectEvent={openModal}
         components={{
-          event: ({ event }) => (
+          event: ({ event }:any) => (
             <span>
               <strong>{event.title}</strong>
               <br />

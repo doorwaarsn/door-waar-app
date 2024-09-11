@@ -1,3 +1,5 @@
+import React from "react";
+
 const AddContact = ({ showModal, setShowModal }: any) => {
   const handleSubmit = (event: any) => {
     event.preventDefault();

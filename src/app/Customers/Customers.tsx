@@ -23,7 +23,7 @@ const convertUserToUserType = (user: any): UserType => ({
 });
 
 const Customers = () => {
-  const { customers, loading, error } = useUsers();
+  const { customers } = useUsers();
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 

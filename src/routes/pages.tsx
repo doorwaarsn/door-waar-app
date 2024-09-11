@@ -19,6 +19,7 @@ import { GDINPaths } from "./paths";
 // import SingleEmployee from "../components/Employee/SingleEmployee";
 import Customers from "../app/Customers/Customers";
 import SingleEmployee from "../components/Employee/SingleEmployee";
+import React from "react";
 
 export const useNavigationPaths = [
   {

@@ -8,6 +8,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { format, parseISO } from "date-fns";
+import React from "react";
 
 const monthTranslations: { [key: string]: string } = {
   Jan: "Janv",

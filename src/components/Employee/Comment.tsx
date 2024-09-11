@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { format } from "date-fns";
 import { IoIosClose } from "react-icons/io";
+import React from "react";
 
 const Comment = ({ item }: any) => {
   const [isSliderOpen, setIsSliderOpen] = useState(false);

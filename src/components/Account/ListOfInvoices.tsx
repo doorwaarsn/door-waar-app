@@ -4,6 +4,7 @@ import Mail from "../../assets/icons/mail.svg";
 import Print from "../../assets/icons/print.svg";
 import Visa from "../../assets/icons/visa.svg";
 import Paypal from "../../assets/icons/paypal.svg";
+import React from "react";
 
 const InvoicesDatas = [
   {

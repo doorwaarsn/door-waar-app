@@ -6,6 +6,7 @@ import { UserProvider } from "./contexts/users/users.provider";
 import { ThemeProvider } from "./layout/ThemeContext";
 import { DepartmentProvider } from "./contexts/Department/department.provider";
 import { CommentProvider } from "./contexts/Comment/Comment.provider";
+import React from "react";
 
 function App() {
   return (

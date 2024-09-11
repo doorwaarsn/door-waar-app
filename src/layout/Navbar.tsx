@@ -1,9 +1,9 @@
 import { AiFillMail } from "react-icons/ai";
 import { IoNotifications } from "react-icons/io5";
-import { CiSearch } from "react-icons/ci";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../contexts/auth/auth.context";
+import React from "react";
 
 const Navbar = ({ title }: any) => {
   const [isOpen, setIsOpen] = useState(false);

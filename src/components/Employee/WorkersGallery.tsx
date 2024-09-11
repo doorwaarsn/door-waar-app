@@ -3,6 +3,9 @@ import { IoIosClose } from "react-icons/io";
 import { MdArrowForwardIos } from "react-icons/md";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { API_URL } from "../../env";
+import React from "react";
+
+
 
 export function WorkersGallery({ data }: any) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);

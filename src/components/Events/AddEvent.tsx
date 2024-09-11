@@ -1,15 +1,13 @@
 import ColorPicker from "./ColorPicker";
 import HoureSelector from "./HoureSelector";
 import Default_on from "../../assets/icons/Default_ ON.svg";
-import { useDispatch } from "react-redux";
-import Autosuggest, { InputProps } from "react-autosuggest";
 import { useState } from "react";
 import { EventCategory } from "../../contexts/category/type";
 import { useUsers } from "../../contexts/users/users.provider";
 import { User } from "../../common/users/users.models";
+import React from "react";
 
 const AddEvent = ({ showModal, setShowModal }: any) => {
-  const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -17,7 +15,7 @@ const AddEvent = ({ showModal, setShowModal }: any) => {
   const [endDate, setEndDate] = useState("");
   const [endTime, setEndTime] = useState("");
   const [location, setLocation] = useState("");
-  const [attendees, setAttendees] = useState<User[]>([]);
+  const [attendees] = useState<User[]>([]);
   const [category, setCategory] = useState<EventCategory>(EventCategory.BLUE);
   const { users } = useUsers();
 

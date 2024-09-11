@@ -2,11 +2,12 @@ import { Link } from "react-router-dom";
 import Pencil from "../../assets/icons/pencil.svg";
 import Trash from "../../assets/icons/trash.svg";
 import { API_URL } from "../../env";
+import React from "react";
 
 const Card = ({ datas }: any) => {
   return (
     <Link
-      to={`/dashboard/professions/${datas.id}`}
+      to={`/dashboard/professions/${datas?.id}`}
       className="w-full sm:w-[320px]  border flex flex-col items-center justify-between gap-2  sm:p-[20px 0px] rounded-[8px] border border-[#eff4fa] bg-white shadow-sm"
     >
       <div className="flex flex-col items-center gap-2 pt-5 w-full">
@@ -19,7 +20,7 @@ const Card = ({ datas }: any) => {
           {datas.head?.firstName} {datas.head?.lastName}
         </h6>
         <p className="text-[12px] font-normal leading-[0.67] text-center text-[#8f9bb3]">
-          {datas.name}
+          {datas?.name}
         </p>
         <div className="flex justify-center items-center w-full gap-3">
           <button className="w-[20px] h-[20px] p-1 bg-[#14ABE3] rounded-sm">

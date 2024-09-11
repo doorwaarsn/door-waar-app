@@ -6,6 +6,8 @@ import {
   ResponsiveContainer,
   YAxis,
 } from "recharts";
+import React from "react";
+
 
 const data = [
   {

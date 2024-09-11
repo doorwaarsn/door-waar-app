@@ -1,5 +1,6 @@
 import Visa from "../../assets/icons/visa.svg";
 import Paypal from "../../assets/icons/paypal.svg";
+import React from "react";
 
 const InvoicesDatas = [
   {

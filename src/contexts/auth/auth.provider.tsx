@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import React, { useReducer } from "react";
 import { AuthActions, IAuth, IAuthRegister } from "./auth.model";
 import reducer from "./auth.reducer";
 import AuthContext, { initState } from "./auth.context";

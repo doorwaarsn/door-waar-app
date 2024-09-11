@@ -12,6 +12,7 @@ import { useContext } from "react";
 import AuthContext from "../../contexts/auth/auth.context";
 import { useUsers } from "../../contexts/users/users.provider";
 import * as XLSX from 'xlsx';
+import React from "react";
 
 const Home = () => {
   const { profile } = useContext(AuthContext);

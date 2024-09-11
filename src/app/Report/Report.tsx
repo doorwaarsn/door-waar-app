@@ -4,6 +4,7 @@ import ListOfExpenses from "../../components/Account/Expenses";
 import YearSelect from "../../components/Report/YearSelect";
 import ExpensesKpi from "../../components/Report/ExpensesKpi";
 import InvoicesKpi from "../../components/Report/InvoicesKpi";
+import React from "react";
 
 const InvoiceskpiDatas = [
   {

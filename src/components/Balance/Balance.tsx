@@ -4,6 +4,8 @@ import { API_URL } from "../../env";
 import { IoIosClose } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
+import React from "react";
+
 
 interface CommentProps {
   worker?: {

@@ -11,6 +11,7 @@ import { useParams } from "react-router-dom";
 import { useDepartments } from "../../contexts/Department/department.provider";
 import { User } from "../../contexts/users/users.models";
 import { Link } from "react-router-dom";
+import React from "react";
 
 type UserType = {
   id: string;

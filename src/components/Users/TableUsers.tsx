@@ -1,6 +1,7 @@
 import Pencil from "../../assets/icons/pencil.svg";
 import Trash from "../../assets/icons/trash.svg";
 import { Link } from "react-router-dom";
+import React from "react";
 
 const TableUsers = ({ users, loading, error }: any) => {
   function RoleButton({ item }: any) {

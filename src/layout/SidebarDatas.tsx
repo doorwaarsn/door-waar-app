@@ -1,6 +1,5 @@
 import { BsWindow } from "react-icons/bs";
 import { HiOutlineUsers } from "react-icons/hi2";
-import { TiFlashOutline } from "react-icons/ti";
 import { GoFlame } from "react-icons/go";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { CiCreditCard1 } from "react-icons/ci";
@@ -13,6 +12,7 @@ import { BsPersonVcard } from "react-icons/bs";
 import { VscReferences } from "react-icons/vsc";
 import { MdOutlineLeaderboard } from "react-icons/md";
 import { PiUsersThree } from "react-icons/pi";
+import React from "react";
 
 interface sidebarItem {
   title: string;

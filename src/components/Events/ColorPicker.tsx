@@ -1,14 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { EventCategory } from "../../contexts/category/type";
 
-interface Color {
-  id: number;
-  name: string;
-  value: string;
-  category: EventCategory;
-}
+
 const ColorPicker = ({ selectedCategory, setSelectedCategory }: any) => {
-  const [selectedColor, setSelectedColor] = useState("");
 
   const handleColorChange = (category: EventCategory) => {
     setSelectedCategory(category);

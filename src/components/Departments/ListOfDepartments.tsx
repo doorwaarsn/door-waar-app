@@ -4,6 +4,7 @@ import Eye from "../../assets/icons/eye.svg";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import { CiSearch } from "react-icons/ci";
 import { Link } from "react-router-dom";
+import React from "react";
 
 const ListOfDepartments = ({ datas, loading, error }: any) => {
   const [currentPage, setCurrentPage] = useState(1);

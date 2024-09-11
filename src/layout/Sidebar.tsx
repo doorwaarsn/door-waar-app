@@ -9,11 +9,9 @@ import { IoDocumentOutline } from "react-icons/io5";
 import { IoSettingsOutline } from "react-icons/io5";
 import { CgMenuLeft } from "react-icons/cg";
 import { Link, useLocation } from "react-router-dom";
-import AuthContext from "../contexts/auth/auth.context";
 import LOGO from "../assets/logo/logo1.png";
 
 const Sidebar = () => {
-  const { profile } = useContext(AuthContext);
   const [openNav, setOpenNav] = useState(true);
 
   const location = useLocation();

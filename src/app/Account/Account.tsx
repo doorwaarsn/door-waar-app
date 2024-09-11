@@ -3,6 +3,7 @@ import KpiCard from "../../components/Account/KpiCard";
 import ListOfInvoices from "../../components/Account/ListOfInvoices";
 import ListOfPayments from "../../components/Account/Payments";
 import ListOfExpenses from "../../components/Account/Expenses";
+import React from "react";
 
 const kpiDatas = [
   {

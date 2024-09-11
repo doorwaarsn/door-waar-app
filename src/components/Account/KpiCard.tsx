@@ -1,3 +1,4 @@
+import React from "react";
 import Arrow from "../../assets/icons/arrow-down.svg";
 
 const KpiCard = ({ datas }: any) => {
